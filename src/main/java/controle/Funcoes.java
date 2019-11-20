@@ -19,23 +19,48 @@ public class Funcoes {
 	public JavascriptExecutor JSexecutor;
 	public Random randon;
 	public GerarCpfCnpj geraCpf;
+	public JavascriptExecutor js;
 
 	public Funcoes() {
 
 	}
 
 	public void inicializar() {
+
 		ChromeOptions options = new ChromeOptions();
-		options.addArguments("start-maximized");
+
+		// options.addArguments("user-data-dir=C:\\Users\\julimar.miranda\\AppData\\Local\\Google\\Chrome\\User
+		// Data\\");
 		// SEM UI
 		// options.addArguments("--headless");
+		options.addArguments("test-type");
+		options.addArguments("disable-extensions");
+		options.addArguments("disable-infobars");
+		options.addArguments("disable-plugins");
+		options.addArguments("no-sandbox");
+		options.addArguments("start-maximized");
+		options.addArguments("test-type");
+		options.addArguments("test-type=browser");
+		options.addArguments("auto-open-devtools-for-tabs");
+		options.addArguments("disable-default-apps");
+		options.addArguments("--disable-popup-blocking");
+		options.addArguments("enable-precise-memory-info");
+		options.addArguments("incognito");
+		options.addArguments("disable-infobars");
+		options.addArguments("--disable-notifications");
+		options.addArguments("js-flags=--expose-gc");
+		options.setExperimentalOption("useAutomationExtension", false);
+		options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
+
 		System.setProperty("webdriver.chrome.driver", pathChromeServer);
 		navegador = new ChromeDriver(options);
 		dormir = new WebDriverWait(navegador, 10);
 		JSexecutor = (JavascriptExecutor) navegador;
 		randon = new Random();
-		geraCpf = new GerarCpfCnpj();		
-		navegador.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		geraCpf = new GerarCpfCnpj();
+		navegador.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+		js = (JavascriptExecutor) navegador;
+
 	}
 
 	public void abrirURL(String url) {
@@ -60,8 +85,8 @@ public class Funcoes {
 		input.clear();
 		esperar(250);
 		input.sendKeys(texto);
-		esperar(500);
-		input.sendKeys(Keys.ARROW_DOWN);
+		//esperar(500);
+		//input.sendKeys(Keys.ARROW_DOWN);
 		esperar(500);
 		input.sendKeys(Keys.ENTER);
 	}
