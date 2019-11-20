@@ -86,7 +86,7 @@ public class InformacoesBancarias8 extends Funcoes {
 	 */
 	public InformacoesBancarias8 clickSalvarButton() {
 		salvar.click();
-		//esperar(800);
+		esperar(1500);
 		return this;
 	}
 
@@ -95,7 +95,7 @@ public class InformacoesBancarias8 extends Funcoes {
 	 *
 	 * @return the Oitava class instance.
 	 */
-	public InformacoesBancarias8 clickSeguirButton() {
+	public InformacoesBancarias8 clickSeguirButton() {		
 		seguir.click();
 		return this;
 	}

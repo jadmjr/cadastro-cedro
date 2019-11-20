@@ -85,8 +85,8 @@ public class Funcoes {
 		input.clear();
 		esperar(250);
 		input.sendKeys(texto);
-		//esperar(500);
-		//input.sendKeys(Keys.ARROW_DOWN);
+		esperar(500);
+		input.sendKeys(Keys.ARROW_DOWN);
 		esperar(500);
 		input.sendKeys(Keys.ENTER);
 	}

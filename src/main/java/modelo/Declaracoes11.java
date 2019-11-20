@@ -23,7 +23,7 @@ public class Declaracoes11 extends Funcoes {
 
 	private final String pageUrl = "/cadastro/perfil-investidor";
 
-	@FindBy(id = "buttonNext")
+	@FindBy(id = "next")
 	@CacheLookup
 	private WebElement seguir;
 

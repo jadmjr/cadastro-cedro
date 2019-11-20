@@ -23,7 +23,7 @@ public class ConfirmaPerfilInvestidor10 {
     @CacheLookup
     private WebElement refazerOTeste;
 
-    @FindBy(id = "next")
+    @FindBy(id = "buttonNext")
     @CacheLookup
     private WebElement seguir;
 
