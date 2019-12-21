@@ -9,7 +9,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Endereco5 {
+import controle.Funcoes;
+
+public class Endereco5 extends Funcoes{
 	private Map<String, String> data;
 	private WebDriver driver;
 	private int timeout = 15;
@@ -80,6 +82,7 @@ public class Endereco5 {
 	 * @return the Quinta class instance.
 	 */
 	public Endereco5 clickSeguirButton() {
+		esperar(500);
 		seguir.click();
 		return this;
 	}

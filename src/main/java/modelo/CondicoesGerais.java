@@ -12,16 +12,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import controle.Funcoes;
 
-public class TerceirosProcuradores12 extends Funcoes {
+public class CondicoesGerais extends Funcoes {
 	private Map<String, String> data;
 	private WebDriver driver;
 	private int timeout = 15;
 
-	private final String pageLoadedText = "Ele serve para identificarmos a sua tolerância em relação à exposição aos riscos, para que possamos oferecer produtos e serviços compatíveis ao seu perfil ou até mesmo alertá-lo em caso de desenquadramento";
+	private final String pageUrl = "/cadastro/termoss";
 
-	private final String pageUrl = "/cadastro/perfil-investidor";
-
-	@FindBy(id = "buttonNext")
+	@FindBy(id = "next")
 	@CacheLookup
 	private WebElement seguir;
 
@@ -29,24 +27,24 @@ public class TerceirosProcuradores12 extends Funcoes {
 	@CacheLookup
 	private WebElement voltar;
 
-	@FindBy(tagName = "mat-radio-group")
+	@FindBy(id = "termsAcception")
 	@CacheLookup
-	private WebElement botoes;
+	private WebElement aceitar;
 
-	public TerceirosProcuradores12() {
+	public CondicoesGerais() {
 	}
 
-	public TerceirosProcuradores12(WebDriver driver) {
+	public CondicoesGerais(WebDriver driver) {
 		this();
 		this.driver = driver;
 	}
 
-	public TerceirosProcuradores12(WebDriver driver, Map<String, String> data) {
+	public CondicoesGerais(WebDriver driver, Map<String, String> data) {
 		this(driver);
 		this.data = data;
 	}
 
-	public TerceirosProcuradores12(WebDriver driver, Map<String, String> data, int timeout) {
+	public CondicoesGerais(WebDriver driver, Map<String, String> data, int timeout) {
 		this(driver, data);
 		this.timeout = timeout;
 	}
@@ -59,7 +57,8 @@ public class TerceirosProcuradores12 extends Funcoes {
 	public WebElement getBotaoSeguir() {
 		return seguir;
 	}
-	public TerceirosProcuradores12 clickSeguirButton() {
+
+	public CondicoesGerais clickSeguirButton() {
 		seguir.click();
 		return this;
 	}
@@ -69,7 +68,7 @@ public class TerceirosProcuradores12 extends Funcoes {
 	 *
 	 * @return the Decima class instance.
 	 */
-	public TerceirosProcuradores12 clickVoltarButton() {
+	public CondicoesGerais clickVoltarButton() {
 		voltar.click();
 		return this;
 	}
@@ -79,21 +78,13 @@ public class TerceirosProcuradores12 extends Funcoes {
 	 *
 	 * @return the Decima class instance.
 	 */
-	public TerceirosProcuradores12 verifyPageLoaded() {
-		(new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return d.getPageSource().contains(pageLoadedText);
-			}
-		});
-		return this;
-	}
 
 	/**
 	 * Verify that current page URL matches the expected URL.
 	 *
 	 * @return the Decima class instance.
 	 */
-	public TerceirosProcuradores12 verifyPageUrl() {
+	public CondicoesGerais verifyPageUrl() {
 		(new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
 			public Boolean apply(WebDriver d) {
 				return d.getCurrentUrl().contains(pageUrl);
@@ -103,10 +94,11 @@ public class TerceirosProcuradores12 extends Funcoes {
 	}
 
 	public WebElement getBotoes() {
-		return botoes;
+		return aceitar;
 	}
-	public TerceirosProcuradores12 negarProcuradores() {
-		botoes.findElements(By.tagName("mat-radio-button")).get(1).click();
+
+	public CondicoesGerais aceitar() {
+		aceitar.click();
 		return this;
 	}
 

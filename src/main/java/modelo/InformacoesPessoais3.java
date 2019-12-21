@@ -2,23 +2,22 @@ package modelo;
 
 import java.util.Map;
 
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import controle.Funcoes;
 
-public class InformacoesPessoais3 extends Funcoes {
+public class InformacoesPessoais3 extends Funcoes{
 	private Map<String, String> data;
 	private WebDriver driver;
 	private WebDriverWait wait;
 	private int timeout = 15;
+	private Funcoes func;
 
 	@FindBy(id = "city")
 	@CacheLookup
@@ -32,7 +31,7 @@ public class InformacoesPessoais3 extends Funcoes {
 	@CacheLookup
 	private WebElement estadoCivil;
 
-	@FindBy(id = "mat-input-1")
+	@FindBy(id = "state")
 	@CacheLookup
 	private WebElement estadoDeNascimento;
 
@@ -181,7 +180,6 @@ public class InformacoesPessoais3 extends Funcoes {
 	 * @return the Terceira class instance.
 	 */
 	public InformacoesPessoais3 setCidadeDeNascimentoSearchField(String cidadeDeNascimentoValue) {
-		esperar(1000);
 		selecionarPrimeiraOpcao(cidadeDeNascimento, cidadeDeNascimentoValue);
 		return this;
 	}
@@ -258,6 +256,7 @@ public class InformacoesPessoais3 extends Funcoes {
 	 * @return the Terceira class instance.
 	 */
 	public InformacoesPessoais3 setNomeCompletoDaMeTextField(String nomeCompletoDaMeValue) {
+		
 		nomeCompletoDaMe.sendKeys(nomeCompletoDaMeValue);
 		return this;
 	}
@@ -309,6 +308,7 @@ public class InformacoesPessoais3 extends Funcoes {
 		return setPasDeNascimentoSearchField(data.get("PAS_DE_NASCIMENTO"));
 
 	}
+
 	/**
 	 * Set value to Pas De Nascimento Search field.
 	 *

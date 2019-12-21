@@ -21,7 +21,7 @@ public class InformacoesBancarias8 extends Funcoes {
 	@CacheLookup
 	private WebElement agncia;
 
-	@FindBy(id = "mat-input-8")
+	@FindBy(id = "bank")
 	@CacheLookup
 	private WebElement banco;
 

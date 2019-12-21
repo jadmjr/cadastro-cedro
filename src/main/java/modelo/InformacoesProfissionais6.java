@@ -21,7 +21,7 @@ public class InformacoesProfissionais6 extends Funcoes {
 	private WebDriver driver;
 	private int timeout = 15;
 
-	@FindBy(xpath = "//*[@id=\"is_working_no\"]/label/div[1]/div[1]")
+	@FindBy(id = "is_working_no")
 	@CacheLookup
 	private WebElement no;
 
@@ -68,8 +68,7 @@ public class InformacoesProfissionais6 extends Funcoes {
 	public InformacoesProfissionais6(WebDriver driver) {
 		this();
 		this.driver = driver;
-		dormir = new WebDriverWait(this.driver, 10);
-		dormir.until(ExpectedConditions.visibilityOfElementLocated(By.id("occupation_area")));
+
 	}
 
 	public InformacoesProfissionais6(WebDriver driver, Map<String, String> data) {
@@ -177,6 +176,10 @@ public class InformacoesProfissionais6 extends Funcoes {
 		selecionarPrimeiraOpcao(qualASuaReaDeOcupao, qualASuaReaDeOcupaoValue);
 		esperar(500);
 		return this;
+	}
+
+	public WebElement getAreaOcupacao() {
+		return qualASuaReaDeOcupao;
 	}
 
 	/**
