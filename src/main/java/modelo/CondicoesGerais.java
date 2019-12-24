@@ -10,9 +10,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import controle.Funcoes;
+import controle.Selenium;
 
-public class CondicoesGerais extends Funcoes {
+public class CondicoesGerais extends Selenium {
 	private Map<String, String> data;
 	private WebDriver driver;
 	private int timeout = 15;

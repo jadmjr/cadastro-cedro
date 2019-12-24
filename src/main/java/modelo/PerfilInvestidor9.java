@@ -10,9 +10,9 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 
-import controle.Funcoes;
+import controle.Selenium;
 
-public class PerfilInvestidor9 extends Funcoes {
+public class PerfilInvestidor9 extends Selenium {
 	private Map<String, String> data;
 	private WebDriver driver;
 	private int timeout = 15;

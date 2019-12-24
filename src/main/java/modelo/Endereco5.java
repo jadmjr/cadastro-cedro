@@ -9,9 +9,9 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import controle.Funcoes;
+import controle.Selenium;
 
-public class Endereco5 extends Funcoes{
+public class Endereco5 extends Selenium{
 	private Map<String, String> data;
 	private WebDriver driver;
 	private int timeout = 15;

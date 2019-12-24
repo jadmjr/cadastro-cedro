@@ -10,378 +10,540 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import controle.Funcoes;
+import controle.Selenium;
 
-public class InformacoesPessoais3 extends Funcoes{
-	private Map<String, String> data;
-	private WebDriver driver;
-	private WebDriverWait wait;
-	private int timeout = 15;
-	private Funcoes func;
+public class InformacoesPessoais3 extends Selenium {
+    private Map<String, String> data;
+    private WebDriver driver;
+    private int timeout = 15;
 
-	@FindBy(id = "city")
-	@CacheLookup
-	private WebElement cidadeDeNascimento;
+    @FindBy(id = "city")
+    @CacheLookup
+    private WebElement cidadeDeNascimento;
 
-	@FindBy(id = "birth_date")
-	@CacheLookup
-	private WebElement dataDeNascimento;
+    @FindBy(id = "representative_cpf")
+    @CacheLookup
+    private WebElement cpfDoResponsvelLegal;
 
-	@FindBy(id = "marital_status")
-	@CacheLookup
-	private WebElement estadoCivil;
+    @FindBy(id = "birth_date")
+    @CacheLookup
+    private WebElement dataDeNascimento;
 
-	@FindBy(id = "state")
-	@CacheLookup
-	private WebElement estadoDeNascimento;
+    @FindBy(id = "representative_email")
+    @CacheLookup
+    private WebElement emailDoResponsvelLegal;
+    
+    @FindBy(id = "second_email")
+    @CacheLookup
+    private WebElement emailSecundrio;
 
-	@FindBy(id = "female")
-	@CacheLookup
-	private WebElement feminino;
+    @FindBy(id = "marital_status")
+    @CacheLookup
+    private WebElement estadoCivil;
 
-	@FindBy(id = "male")
-	@CacheLookup
-	private WebElement masculino;
+    @FindBy(id = "state")
+    @CacheLookup
+    private WebElement estadoDeNascimento;
 
-	@FindBy(id = "mother_name")
-	@CacheLookup
-	private WebElement nomeCompletoDaMe;
+    @FindBy(id = "female")
+    @CacheLookup
+    private WebElement feminino;
 
-	@FindBy(id = "father_name")
-	@CacheLookup
-	private WebElement nomeCompletoDoPai;
+    @FindBy(id = "male")
+    @CacheLookup
+    private WebElement masculino;
 
-	@FindBy(id = "second_email")
-	@CacheLookup
-	private WebElement opcional;
+    @FindBy(id = "emancipated-no")
+    @CacheLookup
+    private WebElement no;
 
-	private final String pageLoadedText = "Para sua identificação e segurança, essas informações são necessárias para a criação e validação do seu cadastro";
+    @FindBy(id = "mother_name")
+    @CacheLookup
+    private WebElement nomeCompletoDaMe;
 
-	private final String pageUrl = "/cadastro/informacoes-pessoais";
+    @FindBy(id = "father_name")
+    @CacheLookup
+    private WebElement nomeCompletoDoPai;
 
-	@FindBy(id = "country")
-	@CacheLookup
-	private WebElement pasDeNascimento;
+    @FindBy(id = "representative_name")
+    @CacheLookup
+    private WebElement nomeDoResponsvelLegal;
 
-	@FindBy(id = "buttonNext")
-	@CacheLookup
-	private WebElement seguir;
+    private final String pageLoadedText = "Upload do documento de Identifica��o com CPF do Representante Legal";
 
-	@FindBy(css = "button.block-plan.mx-auto.d-flex.justify-content-center.align-items-center.my-2.ng-star-inserted")
-	@CacheLookup
-	private WebElement standart;
+    private final String pageUrl = "/cadastro/informacoes-pessoais";
 
-	@FindBy(id = "home_phone")
-	@CacheLookup
-	private WebElement telefoneFixo;
+    @FindBy(id = "country")
+    @CacheLookup
+    private WebElement pasDeNascimento;
 
-	@FindBy(id = "buttonPrevious")
-	@CacheLookup
-	private WebElement voltar;
+    @FindBy(id = "representative_id")
+    @CacheLookup
+    private WebElement responsvelLegal;
 
-	public InformacoesPessoais3() {
-	}
+    @FindBy(id = "representative_rg")
+    @CacheLookup
+    private WebElement rgDoResponsvelLegal;
 
-	public InformacoesPessoais3(WebDriver driver) {
-		this();
-		this.driver = driver;
-	}
+    @FindBy(id = "buttonNext")
+    @CacheLookup
+    private WebElement seguir;
 
-	public InformacoesPessoais3(WebDriver driver, Map<String, String> data) {
-		this(driver);
-		this.data = data;
-	}
+    @FindBy(id = "emancipated-yes")
+    @CacheLookup
+    private WebElement sim;
 
-	public InformacoesPessoais3(WebDriver driver, Map<String, String> data, int timeout) {
-		this(driver, data);
-		this.timeout = timeout;
-	}
+    @FindBy(id = "home_phone")
+    @CacheLookup
+    private WebElement telefoneFixo;
 
-	/**
-	 * Click on Feminino Button.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 clickFemininoButton() {
-		feminino.click();
-		return this;
-	}
+    @FindBy(id = "panel-upload")
+    @CacheLookup
+    private WebElement uploadDoDocumentoDeIdentificaoCom;
 
-	/**
-	 * Click on Masculino Button.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 clickMasculinoButton() {
-		masculino.click();
-		return this;
-	}
+    @FindBy(id = "buttonPrevious")
+    @CacheLookup
+    private WebElement voltar;
 
-	/**
-	 * Click on Seguir Button.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 clickSeguirButton() {
-		seguir.click();
-		return this;
-	}
+    public InformacoesPessoais3() {
+    }
 
-	/**
-	 * Click on Standart Button.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 clickStandartButton() {
-		standart.click();
-		return this;
-	}
+    public InformacoesPessoais3(WebDriver driver) {
+        this();
+        this.driver = driver;
+    }
 
-	/**
-	 * Click on Voltar Button.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 clickVoltarButton() {
-		voltar.click();
-		return this;
-	}
+    public InformacoesPessoais3(WebDriver driver, Map<String, String> data) {
+        this(driver);
+        this.data = data;
+    }
 
-	/**
-	 * Fill every fields in the page.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 fill() {
-		setDataDeNascimentoTextField();
-		setOpcionalTextField();
-		setTelefoneFixoTextField();
-		setPasDeNascimentoSearchField();
-		setEstadoDeNascimentoSearchField();
-		setCidadeDeNascimentoSearchField();
-		setEstadoCivilDropDownListField();
-		setNomeCompletoDoPaiTextField();
-		setNomeCompletoDaMeTextField();
-		return this;
-	}
+    public InformacoesPessoais3(WebDriver driver, Map<String, String> data, int timeout) {
+        this(driver, data);
+        this.timeout = timeout;
+    }
 
-	/**
-	 * Set default value to Cidade De Nascimento Search field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setCidadeDeNascimentoSearchField() {
-		return setCidadeDeNascimentoSearchField(data.get("CIDADE_DE_NASCIMENTO"));
-	}
+    /**
+     * Click on Feminino Button.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 clickFemininoButton() {
+        feminino.click();
+        return this;
+    }
 
-	/**
-	 * Set value to Cidade De Nascimento Search field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setCidadeDeNascimentoSearchField(String cidadeDeNascimentoValue) {
-		selecionarPrimeiraOpcao(cidadeDeNascimento, cidadeDeNascimentoValue);
-		return this;
-	}
+    /**
+     * Click on Masculino Button.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 clickMasculinoButton() {
+        masculino.click();
+        return this;
+    }
 
-	/**
-	 * Set default value to Data De Nascimento Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setDataDeNascimentoTextField() {
-		return setDataDeNascimentoTextField(data.get("DATA_DE_NASCIMENTO"));
-	}
+    /**
+     * Click on No Button.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 clickNoButton() {
+        no.click();
+        return this;
+    }
 
-	/**
-	 * Set value to Data De Nascimento Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setDataDeNascimentoTextField(String dataDeNascimentoValue) {
-		dataDeNascimento.sendKeys(dataDeNascimentoValue);
-		return this;
-	}
+    /**
+     * Click on Seguir Button.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 clickSeguirButton() {
+        seguir.click();
+        return this;
+    }
 
-	/**
-	 * Set default value to Estado Civil Drop Down List field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setEstadoCivilDropDownListField() {
-		return setEstadoCivilDropDownListField(data.get("ESTADO_CIVIL"));
-	}
+    /**
+     * Click on Sim Button.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 clickSimButton() {
+        sim.click();
+        return this;
+    }
 
-	/**
-	 * Set value to Estado Civil Drop Down List field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setEstadoCivilDropDownListField(String estadoCivilValue) {
-		new Select(estadoCivil).selectByVisibleText(estadoCivilValue);
-		return this;
-	}
+    /**
+     * Click on Voltar Button.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 clickVoltarButton() {
+        voltar.click();
+        return this;
+    }
 
-	/**
-	 * Set default value to Estado De Nascimento Search field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setEstadoDeNascimentoSearchField() {
-		return setEstadoDeNascimentoSearchField(data.get("ESTADO_DE_NASCIMENTO"));
-	}
+    /**
+     * Fill every fields in the page.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 fill() {
+        setDataDeNascimentoTextField();
+        setResponsvelLegalDropDownListField();
+        setNomeDoResponsvelLegalTextField();
+        setCpfDoResponsvelLegalTextField();
+        setRgDoResponsvelLegalTextField();
+        setEmailDoResponsvelLegalEmailField();
+        setEmailSecundrioTextField();
+        setTelefoneFixoTextField();
+        setPasDeNascimentoSearchField();
+        setEstadoDeNascimentoSearchField();
+        setCidadeDeNascimentoSearchField();
+        setNomeCompletoDaMeTextField();
+        setNomeCompletoDoPaiTextField();
+        setEstadoCivilDropDownListField();
+        return this;
+    }
 
-	/**
-	 * Set value to Estado De Nascimento Search field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setEstadoDeNascimentoSearchField(String estadoDeNascimentoValue) {
-		selecionarPrimeiraOpcao(estadoDeNascimento, estadoDeNascimentoValue);
-		return this;
-	}
+    /**
+     * Set default value to Cidade De Nascimento Search field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setCidadeDeNascimentoSearchField() {
+        return setCidadeDeNascimentoSearchField(data.get("CIDADE_DE_NASCIMENTO"));
+    }
 
-	/**
-	 * Set default value to Nome Completo Da Me Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setNomeCompletoDaMeTextField() {
-		return setNomeCompletoDaMeTextField(data.get("NOME_COMPLETO_DA_ME"));
-	}
+    /**
+     * Set value to Cidade De Nascimento Search field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setCidadeDeNascimentoSearchField(String cidadeDeNascimentoValue) {
+    	selecionarPrimeiraOpcao(cidadeDeNascimento, cidadeDeNascimentoValue);
+        return this;
+    }
 
-	/**
-	 * Set value to Nome Completo Da Me Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setNomeCompletoDaMeTextField(String nomeCompletoDaMeValue) {
-		
-		nomeCompletoDaMe.sendKeys(nomeCompletoDaMeValue);
-		return this;
-	}
+    /**
+     * Set default value to Cpf Do Responsvel Legal Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setCpfDoResponsvelLegalTextField() {
+        return setCpfDoResponsvelLegalTextField(data.get("CPF_DO_RESPONSVEL_LEGAL"));
+    }
 
-	/**
-	 * Set default value to Nome Completo Do Pai Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setNomeCompletoDoPaiTextField() {
-		return setNomeCompletoDoPaiTextField(data.get("NOME_COMPLETO_DO_PAI"));
-	}
+    /**
+     * Set value to Cpf Do Responsvel Legal Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setCpfDoResponsvelLegalTextField(String cpfDoResponsvelLegalValue) {
+        cpfDoResponsvelLegal.sendKeys(cpfDoResponsvelLegalValue);
+        return this;
+    }
 
-	/**
-	 * Set value to Nome Completo Do Pai Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setNomeCompletoDoPaiTextField(String nomeCompletoDoPaiValue) {
-		nomeCompletoDoPai.sendKeys(nomeCompletoDoPaiValue);
-		return this;
-	}
+    /**
+     * Set default value to Data De Nascimento Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setDataDeNascimentoTextField() {
+        return setDataDeNascimentoTextField(data.get("DATA_DE_NASCIMENTO"));
+    }
 
-	/**
-	 * Set default value to Opcional Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setOpcionalTextField() {
-		return setOpcionalTextField(data.get("OPCIONAL"));
-	}
+    /**
+     * Set value to Data De Nascimento Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setDataDeNascimentoTextField(String dataDeNascimentoValue) {
+        dataDeNascimento.sendKeys(dataDeNascimentoValue);
+        return this;
+    }
 
-	/**
-	 * Set value to Opcional Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setOpcionalTextField(String opcionalValue) {
-		opcional.sendKeys(opcionalValue);
-		return this;
-	}
+    /**
+     * Set default value to Email Do Responsvel Legal Email field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEmailDoResponsvelLegalEmailField() {
+        return setEmailDoResponsvelLegalEmailField(data.get("EMAIL_DO_RESPONSVEL_LEGAL"));
+    }
 
-	/**
-	 * Set default value to Pas De Nascimento Search field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setPasDeNascimentoSearchField() {
-		return setPasDeNascimentoSearchField(data.get("PAS_DE_NASCIMENTO"));
+    /**
+     * Set value to Email Do Responsvel Legal Email field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEmailDoResponsvelLegalEmailField(String emailDoResponsvelLegalValue) {
+        emailDoResponsvelLegal.sendKeys(emailDoResponsvelLegalValue);
+        return this;
+    }
 
-	}
+    /**
+     * Set default value to Email Secundrio Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEmailSecundrioTextField() {
+        return setEmailSecundrioTextField(data.get("EMAIL_SECUNDRIO"));
+    }
 
-	/**
-	 * Set value to Pas De Nascimento Search field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setPasDeNascimentoSearchField(String pasDeNascimentoValue) {
-		selecionarPrimeiraOpcao(pasDeNascimento, pasDeNascimentoValue);
-		return this;
-	}
+    /**
+     * Set value to Email Secundrio Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEmailSecundrioTextField(String emailSecundrioValue) {
+        emailSecundrio.sendKeys(emailSecundrioValue);
+        return this;
+    }
 
-	/**
-	 * Set default value to Telefone Fixo Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setTelefoneFixoTextField() {
-		return setTelefoneFixoTextField(data.get("TELEFONE_FIXO"));
-	}
+    /**
+     * Set default value to Estado Civil Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEstadoCivilDropDownListField() {
+        return setEstadoCivilDropDownListField(data.get("ESTADO_CIVIL"));
+    }
 
-	/**
-	 * Set value to Telefone Fixo Text field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 setTelefoneFixoTextField(String telefoneFixoValue) {
-		telefoneFixo.sendKeys(telefoneFixoValue);
-		return this;
-	}
+    /**
+     * Set value to Estado Civil Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEstadoCivilDropDownListField(String estadoCivilValue) {
+        new Select(estadoCivil).selectByVisibleText(estadoCivilValue);
+        return this;
+    }
 
-	/**
-	 * Unset default value from Estado Civil Drop Down List field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 unsetEstadoCivilDropDownListField() {
-		return unsetEstadoCivilDropDownListField(data.get("ESTADO_CIVIL"));
-	}
+    /**
+     * Set default value to Estado De Nascimento Search field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEstadoDeNascimentoSearchField() {
+        return setEstadoDeNascimentoSearchField(data.get("ESTADO_DE_NASCIMENTO"));
+    }
 
-	/**
-	 * Unset value from Estado Civil Drop Down List field.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 unsetEstadoCivilDropDownListField(String estadoCivilValue) {
-		new Select(estadoCivil).deselectByVisibleText(estadoCivilValue);
-		return this;
-	}
+    /**
+     * Set value to Estado De Nascimento Search field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setEstadoDeNascimentoSearchField(String estadoDeNascimentoValue) {
+    	selecionarPrimeiraOpcao(estadoDeNascimento, estadoDeNascimentoValue);
+        return this;
+    }
 
-	/**
-	 * Verify that the page loaded completely.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 verifyPageLoaded() {
-		(new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return d.getPageSource().contains(pageLoadedText);
-			}
-		});
-		return this;
-	}
+    /**
+     * Set default value to Nome Completo Da Me Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setNomeCompletoDaMeTextField() {
+        return setNomeCompletoDaMeTextField(data.get("NOME_COMPLETO_DA_ME"));
+    }
 
-	/**
-	 * Verify that current page URL matches the expected URL.
-	 *
-	 * @return the Terceira class instance.
-	 */
-	public InformacoesPessoais3 verifyPageUrl() {
-		(new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
-			public Boolean apply(WebDriver d) {
-				return d.getCurrentUrl().contains(pageUrl);
-			}
-		});
-		return this;
-	}
+    /**
+     * Set value to Nome Completo Da Me Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setNomeCompletoDaMeTextField(String nomeCompletoDaMeValue) {
+        nomeCompletoDaMe.sendKeys(nomeCompletoDaMeValue);
+        return this;
+    }
+
+    /**
+     * Set default value to Nome Completo Do Pai Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setNomeCompletoDoPaiTextField() {
+        return setNomeCompletoDoPaiTextField(data.get("NOME_COMPLETO_DO_PAI"));
+    }
+
+    /**
+     * Set value to Nome Completo Do Pai Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setNomeCompletoDoPaiTextField(String nomeCompletoDoPaiValue) {
+        nomeCompletoDoPai.sendKeys(nomeCompletoDoPaiValue);
+        return this;
+    }
+
+    /**
+     * Set default value to Nome Do Responsvel Legal Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setNomeDoResponsvelLegalTextField() {
+        return setNomeDoResponsvelLegalTextField(data.get("NOME_DO_RESPONSVEL_LEGAL"));
+    }
+
+    /**
+     * Set value to Nome Do Responsvel Legal Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setNomeDoResponsvelLegalTextField(String nomeDoResponsvelLegalValue) {
+        nomeDoResponsvelLegal.sendKeys(nomeDoResponsvelLegalValue);
+        return this;
+    }
+
+    /**
+     * Set default value to Pas De Nascimento Search field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setPasDeNascimentoSearchField() {
+        return setPasDeNascimentoSearchField(data.get("PAS_DE_NASCIMENTO"));
+    }
+
+    /**
+     * Set value to Pas De Nascimento Search field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setPasDeNascimentoSearchField(String pasDeNascimentoValue) {
+    	selecionarPrimeiraOpcao(pasDeNascimento, pasDeNascimentoValue);
+        return this;
+    }
+
+    /**
+     * Set default value to Responsvel Legal Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setResponsvelLegalDropDownListField() {
+        return setResponsvelLegalDropDownListField(data.get("RESPONSVEL_LEGAL"));
+    }
+
+    /**
+     * Set value to Responsvel Legal Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setResponsvelLegalDropDownListField(String responsvelLegalValue) {
+        new Select(responsvelLegal).selectByVisibleText(responsvelLegalValue);
+        return this;
+    }
+
+    /**
+     * Set default value to Rg Do Responsvel Legal Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setRgDoResponsvelLegalTextField() {
+        return setRgDoResponsvelLegalTextField(data.get("RG_DO_RESPONSVEL_LEGAL"));
+    }
+
+    /**
+     * Set value to Rg Do Responsvel Legal Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setRgDoResponsvelLegalTextField(String rgDoResponsvelLegalValue) {
+        rgDoResponsvelLegal.sendKeys(rgDoResponsvelLegalValue);
+        return this;
+    }
+
+    /**
+     * Set default value to Telefone Fixo Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setTelefoneFixoTextField() {
+        return setTelefoneFixoTextField(data.get("TELEFONE_FIXO"));
+    }
+
+    /**
+     * Set value to Telefone Fixo Text field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setTelefoneFixoTextField(String telefoneFixoValue) {
+        telefoneFixo.sendKeys(telefoneFixoValue);
+        return this;
+    }
+
+    /**
+     * Set Upload Do Documento De Identificao Com Cpf Do Representante Legal Arraste O Documento Aqui Ou Selecione Atravs Do Seu Dispositivo Apenas Arquivos Png Jpg Jpeg Gif E Pdf File field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 setUploadDoDocumentoDeIdentificaoComFileField() {
+        return this;
+    }
+
+    /**
+     * Unset default value from Estado Civil Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 unsetEstadoCivilDropDownListField() {
+        return unsetEstadoCivilDropDownListField(data.get("ESTADO_CIVIL"));
+    }
+
+    /**
+     * Unset value from Estado Civil Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 unsetEstadoCivilDropDownListField(String estadoCivilValue) {
+        new Select(estadoCivil).deselectByVisibleText(estadoCivilValue);
+        return this;
+    }
+
+    /**
+     * Unset default value from Responsvel Legal Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 unsetResponsvelLegalDropDownListField() {
+        return unsetResponsvelLegalDropDownListField(data.get("RESPONSVEL_LEGAL"));
+    }
+
+    /**
+     * Unset value from Responsvel Legal Drop Down List field.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 unsetResponsvelLegalDropDownListField(String responsvelLegalValue) {
+        new Select(responsvelLegal).deselectByVisibleText(responsvelLegalValue);
+        return this;
+    }
+
+    /**
+     * Verify that the page loaded completely.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 verifyPageLoaded() {
+        (new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getPageSource().contains(pageLoadedText);
+            }
+        });
+        return this;
+    }
+
+    /**
+     * Verify that current page URL matches the expected URL.
+     *
+     * @return the Temp class instance.
+     */
+    public InformacoesPessoais3 verifyPageUrl() {
+        (new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
+            public Boolean apply(WebDriver d) {
+                return d.getCurrentUrl().contains(pageUrl);
+            }
+        });
+        return this;
+    }
 }

@@ -12,7 +12,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class Funcoes {
+public class Selenium {
 
 	private String pathChromeServer = "resources\\chromedriver\\chromedriver.exe";
 	public WebDriverWait dormir;
@@ -22,7 +22,7 @@ public class Funcoes {
 	public GerarCpfCnpj geraCpf;
 	public JavascriptExecutor js;
 
-	public Funcoes() {
+	public Selenium() {
 
 	}
 

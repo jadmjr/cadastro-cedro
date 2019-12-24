@@ -11,9 +11,9 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import controle.Funcoes;
+import controle.Selenium;
 
-public class Documentacao4 extends Funcoes {
+public class Documentacao4 extends Selenium {
     private Map<String, String> data;
     private WebDriver driver;
     private int timeout = 15;
