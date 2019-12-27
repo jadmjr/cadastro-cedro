@@ -1,5 +1,6 @@
 package controle;
 
+import java.io.File;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -34,24 +35,25 @@ public class Selenium {
 		// Data\\");
 		// SEM UI
 		// options.addArguments("--headless");
-		//options.addArguments("test-type");
+		// options.addArguments("test-type");
 		options.addArguments("enable-extensions");
-		//options.addArguments("disable-infobars");
+		// options.addArguments("disable-infobars");
 		options.addArguments("enable-plugins");
-		//options.addArguments("no-sandbox");
+		// options.addArguments("no-sandbox");
 		options.addArguments("start-maximized");
-		//options.addArguments("test-type");
-		//options.addArguments("test-type=browser");
-		//options.addArguments("auto-open-devtools-for-tabs");
-		//options.addArguments("disable-default-apps");
-		//options.addArguments("--disable-popup-blocking");
-		//options.addArguments("enable-precise-memory-info");
-		//options.addArguments("incognito");
-		//options.addArguments("disable-infobars");
-		//options.addArguments("--disable-notifications");
-		//options.addArguments("js-flags=--expose-gc");
-		//options.setExperimentalOption("useAutomationExtension", false);
-		//options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
+		// options.addArguments("test-type");
+		// options.addArguments("test-type=browser");
+		options.addArguments("auto-open-devtools-for-tabs");
+		// options.addArguments("disable-default-apps");
+		// options.addArguments("--disable-popup-blocking");
+		// options.addArguments("enable-precise-memory-info");
+		// options.addArguments("incognito");
+		// options.addArguments("disable-infobars");
+		// options.addArguments("--disable-notifications");
+		// options.addArguments("js-flags=--expose-gc");
+		// options.setExperimentalOption("useAutomationExtension", false);
+		// options.setBinary("C:\\Program Files
+		// (x86)\\Google\\Chrome\\Application\\chrome.exe");
 
 		System.setProperty("webdriver.chrome.driver", pathChromeServer);
 		navegador = new ChromeDriver(options);
@@ -60,7 +62,7 @@ public class Selenium {
 		randon = new Random();
 		geraCpf = new GerarCpfCnpj();
 		navegador.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		
+
 		js = (JavascriptExecutor) navegador;
 
 	}
@@ -105,6 +107,11 @@ public class Selenium {
 		dormir = new WebDriverWait(navegador, 10);
 		dormir.until(ExpectedConditions.visibilityOf(elemento));
 
+	}
+	
+	public String carregarArquivo(String nomeArquivo) {
+		File file = new File("resources\\imagem\\" + nomeArquivo);
+		return file.getAbsolutePath();
 	}
 
 }

@@ -7,7 +7,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Cadastro Cedro</name>
 	<description>Automação de testes Cadastro Cedro</description>
-	
+
 	<dependencies>
 		<!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
 		<dependency>
@@ -15,6 +15,24 @@
 			<artifactId>selenium-java</artifactId>
 			<version>3.141.59</version>
 		</dependency>
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
 	</dependencies>
-	
 </project>

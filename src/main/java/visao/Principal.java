@@ -8,8 +8,8 @@ public class Principal {
 
 	public static void main(String[] args) {
 
-		boolean MENOR_DE_IDADE = false;
-		boolean EMANCIPADO = false;
+		boolean MENOR_DE_IDADE = true;
+		boolean EMANCIPADO = true;
 		boolean BRASILEIRO = false;
 		boolean GESTOR = false;
 

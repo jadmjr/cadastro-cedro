@@ -1,9 +1,16 @@
 package controle;
 
-import org.openqa.selenium.By;
+import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.html5.LocalStorage;
+import org.openqa.selenium.html5.WebStorage;
+import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+
+import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.ClientResponse;
+import com.sun.jersey.api.client.WebResource;
 
 import modelo.CondicoesGerais;
 import modelo.ConfirmaPerfilInvestidor10;
@@ -15,6 +22,7 @@ import modelo.InformacoesBancarias8;
 import modelo.InformacoesFinanceiras7;
 import modelo.InformacoesPessoais3;
 import modelo.InformacoesProfissionais6;
+import modelo.Pendencias;
 import modelo.PerfilInvestidor9;
 //TELAS
 import modelo.PreCadastro1;
@@ -36,15 +44,19 @@ public class ScriptCadastro {
 		sel.inicializar();
 
 		// sel.abrirURL("https://qa.cedrotech.com/cadastro/pre-cadastro");
-		//sel.abrirURL("https://dev.cedrotech.com/cadastro/pre-cadastro");
-		sel.abrirURL("https://uat.rbinvestimentos.com/cadastro/");
+		sel.abrirURL("https://dev.cedrotech.com/cadastro/pre-cadastro");
+		// sel.abrirURL("https://uat.rbinvestimentos.com/cadastro/");
+		//sel.abrirURL("https://plataforma.lerosa.com.br/cadastro/");
 
 		try {
 			preencherPrimeiraPagina(sel.navegador);
 
+			// gerarTokenDeConfirmacao(sel.navegador);
+
 			selecionaPlano(sel.navegador);
 
 			informacoesPessoais(sel.navegador);
+
 			preencherTipoDeDocumento(sel.navegador);
 			preencherEndereco(sel.navegador);
 			preencherInformacoesProfissionais(sel.navegador);
@@ -56,12 +68,56 @@ public class ScriptCadastro {
 			informarProcuradores(sel.navegador);
 			enderecoCorrespondencia(sel.navegador);
 			preencherCondicoesGerais(sel.navegador);
+			preencherPendencias(sel.navegador);
+
 		} catch (Exception e) {
+
 			System.out.println("->" + e.getMessage());
-			if (sel.navegador.findElement(By.id("information-modal")).getText()
-					.contains("Estamos com instabilidade no sistema, por favor tente novamente mais tarde!"))
-				System.out.println("Sistema com instabilidade");
+
+			/*
+			 * if (sel.navegador.findElement(By.id("information-modal")).getText()
+			 * .contains("Estamos com instabilidade no sistema, por favor tente novamente mais tarde!"
+			 * )) System.out.println("Sistema com instabilidade");
+			 */
 		}
+
+	}
+
+	private void gerarTokenDeConfirmacao(WebDriver navegador) {
+		WebStorage webStorage = (WebStorage) new Augmenter().augment(sel.navegador);
+		LocalStorage localStorage = webStorage.getLocalStorage();
+
+		String meioAssinatura = "meioass";
+		String email = "email@emia.com";
+		String data_person = localStorage.getItem("data_person");
+		String x_protocol = localStorage.getItem("x-protocol");
+		String app_token = localStorage.getItem("app_token");
+
+		System.out.println(data_person);
+		System.out.println(x_protocol);
+		System.out.println(app_token);
+
+		JSONObject person_id = new JSONObject(data_person);
+
+		Client client = Client.create();
+
+		WebResource webResource = client
+				.resource("http://plataforma.lerosa.com.br:5004/cedro_contract_digital/1.0.0/signature_token_person");
+
+		String input = "{ \"Data\": {\"signature_token_type_id\": " + meioAssinatura + ", \"person_id\": "
+				+ person_id.getInt("id") + ", \"email\": \"" + email + "\" } }";
+
+		System.out.println(input);
+
+		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input);
+
+		if (response.getStatus() != 201) {
+			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
+		}
+
+		System.out.println("Output from Server .... \n");
+		String output = response.getEntity(String.class);
+		System.out.println(output);
 
 	}
 
@@ -102,44 +158,46 @@ public class ScriptCadastro {
 		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3();
 		PageFactory.initElements(navegador, informacoesPessoais);
 
+		informacoesPessoais.clickMasculinoButton();
+
 		if (menorDeIdade) {
 			informacoesPessoais.setDataDeNascimentoTextField("12/06/2010");
 			if (emancipado) {
-				informacoesPessoais.setResponsvelLegalDropDownListField("MÃE");
+				if (!sel.navegador.getCurrentUrl().contains("lerosa") && !sel.navegador.getCurrentUrl().contains("cedrotech"))
+					informacoesPessoais.setResponsvelLegalDropDownListField("MÃE");
+				else
+					informacoesPessoais.setResponsvelLegalDropDownListField("Mãe");
 				informacoesPessoais.setNomeDoResponsvelLegalTextField("REPRESENTA " + sel.gerarNomeAleatorio());
 				informacoesPessoais.setCpfDoResponsvelLegalTextField(sel.geraCpf.cpf(true));
 				informacoesPessoais.setRgDoResponsvelLegalTextField("16470301");
 				informacoesPessoais.setEmailDoResponsvelLegalEmailField("jadmjr+1@gmail.com");
-				esperarArquivo();
+
+				informacoesPessoais.setUploadDoDocumentoDeIdentificaoComFileField(sel.carregarArquivo("cnh1.jpg"));
 			}
 
 		} else {
 			informacoesPessoais.setDataDeNascimentoTextField("12/06/1990");
-			informacoesPessoais.clickMasculinoButton();
-			informacoesPessoais.setEmailSecundrioTextField("jadmjr@gmail.com");
-			informacoesPessoais.setTelefoneFixoTextField("3432177247");
-			informacoesPessoais.setPasDeNascimentoSearchField("");
-			informacoesPessoais.setPasDeNascimentoSearchField("BRASIL");
-			sel.esperar(800);
-			informacoesPessoais.setEstadoDeNascimentoSearchField("MINAS GERAIS");
-			sel.esperar(1500);
-			informacoesPessoais.setCidadeDeNascimentoSearchField("UBERLÂNDIA");
-			informacoesPessoais.setEstadoCivilDropDownListField("SOLTEIRO(A)");
-			informacoesPessoais.setNomeCompletoDoPaiTextField("PAI " + sel.gerarNomeAleatorio());
-			informacoesPessoais.setNomeCompletoDaMeTextField("MAE " + sel.gerarNomeAleatorio());
-			informacoesPessoais.clickSeguirButton();
 		}
-	}
 
-	private void esperarArquivo() {
-		try {
-			sel.JSexecutor.executeScript("window.confirm('--Olá Humano, carregue as imagens.')");
-			Thread.sleep(5000);
-			sel.navegador.findElement(By.id("card"));
-			esperarArquivo();
-		} catch (Exception e) {
-			//
-		}
+		informacoesPessoais.setEmailSecundrioTextField("jadmjr@gmail.com");
+		informacoesPessoais.setTelefoneFixoTextField("3432177247");
+		informacoesPessoais.setPasDeNascimentoSearchField("");
+		informacoesPessoais.setPasDeNascimentoSearchField("BRASIL");
+		sel.esperar(800);
+		informacoesPessoais.setEstadoDeNascimentoSearchField("MINAS GERAIS");
+		sel.esperar(1500);
+		informacoesPessoais.setCidadeDeNascimentoSearchField("UBERLÂNDIA");
+		if (!sel.navegador.getCurrentUrl().contains("lerosa"))
+			informacoesPessoais.setEstadoCivilDropDownListField("SOLTEIRO(A)");
+		else
+			informacoesPessoais.setEstadoCivilDropDownListField("Solteiro(a)");
+
+		informacoesPessoais.setNomeCompletoDoPaiTextField("PAI " + sel.gerarNomeAleatorio());
+
+		if (!menorDeIdade)
+			informacoesPessoais.setNomeCompletoDaMeTextField("MAE " + sel.gerarNomeAleatorio());
+
+		informacoesPessoais.clickSeguirButton();
 	}
 
 	private void preencherTipoDeDocumento(WebDriver navegador) {
@@ -151,7 +209,12 @@ public class ScriptCadastro {
 		documentacao.setEstadoEmissorSearchField("MINAS GERAIS");
 		sel.esperar(800);
 		documentacao.setRgoEmissorDropDownListField("SECRETARIA DE SEGURANÇA PÚBLICA");
-		documentacao.setDataDeEmissoTextField("12/06/2000");
+		documentacao.setDataDeEmissoTextField("12/06/2019");
+		
+		if (sel.navegador.getCurrentUrl().contains("lerosa")) {
+			documentacao.setComprovantes();
+		}
+		
 		documentacao.clickSeguirButton();
 	}
 
@@ -244,6 +307,15 @@ public class ScriptCadastro {
 		PageFactory.initElements(navegador, condicoes);
 		condicoes.aceitar();
 		condicoes.clickSeguirButton();
+	}
+
+	private void preencherPendencias(WebDriver navegador) {
+		Pendencias pendecias = new Pendencias();
+		PageFactory.initElements(navegador, pendecias);
+		sel.esperar(1500);
+		pendecias.setComprovantes();
+		pendecias.clickSeguirButton();
+
 	}
 
 }

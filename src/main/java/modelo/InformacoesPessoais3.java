@@ -477,7 +477,8 @@ public class InformacoesPessoais3 extends Selenium {
      *
      * @return the Temp class instance.
      */
-    public InformacoesPessoais3 setUploadDoDocumentoDeIdentificaoComFileField() {
+    public InformacoesPessoais3 setUploadDoDocumentoDeIdentificaoComFileField(String path) {
+    	uploadDoDocumentoDeIdentificaoCom.sendKeys(path);
         return this;
     }
 
