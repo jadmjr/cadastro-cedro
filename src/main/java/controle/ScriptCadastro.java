@@ -44,9 +44,9 @@ public class ScriptCadastro {
 		sel.inicializar();
 
 		// sel.abrirURL("https://qa.cedrotech.com/cadastro/pre-cadastro");
-		sel.abrirURL("https://dev.cedrotech.com/cadastro/pre-cadastro");
-		// sel.abrirURL("https://uat.rbinvestimentos.com/cadastro/");
-		//sel.abrirURL("https://plataforma.lerosa.com.br/cadastro/");
+		// sel.abrirURL("https://dev.cedrotech.com/cadastro/pre-cadastro");
+		sel.abrirURL("https://uat.rbinvestimentos.com/cadastro/");
+		// sel.abrirURL("https://plataforma.lerosa.com.br/cadastro/");
 
 		try {
 			preencherPrimeiraPagina(sel.navegador);
@@ -122,8 +122,11 @@ public class ScriptCadastro {
 	}
 
 	public void preencherPrimeiraPagina(WebDriver navegador) {
+		
 		PreCadastro1 preCadastro = new PreCadastro1();
 		PageFactory.initElements(navegador, preCadastro);
+		
+		
 		preCadastro.setNomeCompletoTextField("Teste " + sel.gerarNomeAleatorio());
 		preCadastro.setCpfTextField(sel.geraCpf.cpf(true));
 		preCadastro.setEmailTextField("julimar.miranda@cedrotech.com");
@@ -131,6 +134,8 @@ public class ScriptCadastro {
 		if (!navegador.getCurrentUrl().contains("rbinvestimentos")) {
 			preCadastro.clickTodosOsTiposDeInvestimentoButton();
 		}
+		
+		sel.salvarPaginaOFFLINE("pre-cadastro");
 		preCadastro.clickSeguirButton();
 	}
 
@@ -163,7 +168,8 @@ public class ScriptCadastro {
 		if (menorDeIdade) {
 			informacoesPessoais.setDataDeNascimentoTextField("12/06/2010");
 			if (emancipado) {
-				if (!sel.navegador.getCurrentUrl().contains("lerosa") && !sel.navegador.getCurrentUrl().contains("cedrotech"))
+				if (!sel.navegador.getCurrentUrl().contains("lerosa")
+						&& !sel.navegador.getCurrentUrl().contains("cedrotech"))
 					informacoesPessoais.setResponsvelLegalDropDownListField("MÃE");
 				else
 					informacoesPessoais.setResponsvelLegalDropDownListField("Mãe");
@@ -210,11 +216,11 @@ public class ScriptCadastro {
 		sel.esperar(800);
 		documentacao.setRgoEmissorDropDownListField("SECRETARIA DE SEGURANÇA PÚBLICA");
 		documentacao.setDataDeEmissoTextField("12/06/2019");
-		
+
 		if (sel.navegador.getCurrentUrl().contains("lerosa")) {
 			documentacao.setComprovantes();
 		}
-		
+
 		documentacao.clickSeguirButton();
 	}
 

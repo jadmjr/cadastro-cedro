@@ -8,7 +8,7 @@ public class Principal {
 
 	public static void main(String[] args) {
 
-		boolean MENOR_DE_IDADE = true;
+		boolean MENOR_DE_IDADE = false;
 		boolean EMANCIPADO = true;
 		boolean BRASILEIRO = false;
 		boolean GESTOR = false;
@@ -18,37 +18,36 @@ public class Principal {
 		Scanner sc = new Scanner(System.in);
 
 		System.out.println("*BEM VINDO AO CROONER*");
+		System.out.println("Digite (S) para Sim e (N) para Não.");
 
-		/*
-		 * System.out.
-		 * println("\n*DIGITE (S) PARA SIM E (N) PARA NÃO PARA NO QUESTIONÁRIO ABAIXO:*"
-		 * );
-		 * 
-		 * System.out.println("\n*O NOVO CLIENTE PRECISA SER MENOR DE IDADE?*"); String
-		 * menorDeIdade = sc.nextLine();
-		 * 
-		 * String emancipado = sc.nextLine(); if
-		 * (menorDeIdade.toUpperCase().contains("S")) {
-		 * System.out.println("\n*O NOVO CLIENTE PRECISA SER EMANCIPADO?*"); emancipado
-		 * = sc.nextLine(); }
-		 * 
-		 * System.out.println("\n*O NOVO CLIENTE PRECISA SER BRASILEIRO?*"); String
-		 * brasileio = sc.nextLine();
-		 * 
-		 * System.out.println("\n*QUER UM ASSESSOR GESTOR DE CONTAS?*"); String gestor =
-		 * sc.nextLine();
-		 * 
-		 * System.out.
-		 * println("\n*Vou criar o cliente utilizando a interface gráfica ...*\n");
-		 * 
-		 * if (menorDeIdade.toUpperCase().contains("S")) MENOR_DE_IDADE = true; if
-		 * (emancipado.toUpperCase().contains("S")) EMANCIPADO = true; if
-		 * (brasileio.toUpperCase().contains("S")) BRASILEIRO = true; if
-		 * (gestor.toUpperCase().contains("S")) GESTOR = true;
-		 */
+		System.out.println("Deseja um cliente menor de idade? ");
+		String menorDeIdade = sc.nextLine();
 
-		System.out.println("MENOR_DE_IDADE: " + MENOR_DE_IDADE + "\nEMANCIPADO: " + EMANCIPADO + "\nBRASILEIRO: "
-				+ BRASILEIRO + "\nGESTOR: " + GESTOR + "");
+		String emancipado = sc.nextLine();
+		if (menorDeIdade.toUpperCase().contains("S")) {
+			System.out.println("Deseja um menor emancipado ?");
+			emancipado = sc.nextLine();
+		}
+
+		System.out.println("Deseja um cliente Brasileiro?");
+		String brasileio = sc.nextLine();
+
+		System.out.println("Deseja um Assessor Gestor de Contas?");
+		String gestor = sc.nextLine();
+
+		System.out.println("*Agora irei criar o cliente para você utilizando a interface gráfica ...*");
+
+		if (menorDeIdade.toUpperCase().contains("S"))
+			MENOR_DE_IDADE = true;
+		if (emancipado.toUpperCase().contains("S"))
+			EMANCIPADO = true;
+		if (brasileio.toUpperCase().contains("S"))
+			BRASILEIRO = true;
+		if (gestor.toUpperCase().contains("S"))
+			GESTOR = true;
+
+		System.out.println("MENOR_DE_IDADE: " + MENOR_DE_IDADE + "EMANCIPADO: " + EMANCIPADO + "BRASILEIRO: "
+				+ BRASILEIRO + "GESTOR: " + GESTOR + "");
 
 		ScriptCadastro script = new ScriptCadastro();
 		script.executar(MENOR_DE_IDADE, EMANCIPADO, BRASILEIRO, GESTOR);

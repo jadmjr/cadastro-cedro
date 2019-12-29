@@ -1,6 +1,8 @@
 package controle;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -108,10 +110,24 @@ public class Selenium {
 		dormir.until(ExpectedConditions.visibilityOf(elemento));
 
 	}
-	
+
 	public String carregarArquivo(String nomeArquivo) {
 		File file = new File("resources\\imagem\\" + nomeArquivo);
 		return file.getAbsolutePath();
 	}
 
+	public void salvarPaginaOFFLINE(String nomePagina) {
+		String stored_report = navegador.getPageSource();
+
+		File f = new File("resources\\pages-html\\" + nomePagina + ".html");
+		FileWriter writer;
+		try {
+			writer = new FileWriter(f, true);
+			writer.write(stored_report);
+			System.out.println("Report Created is in Location : " + f.getAbsolutePath());
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
