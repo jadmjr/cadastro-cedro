@@ -2,319 +2,341 @@ package modelo;
 
 import java.util.Map;
 
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class PreCadastro1 {
-    private Map<String, String> data;
-    private WebDriver driver;
-    private int timeout = 15;
+import controle.Selenium;
 
-    @FindBy(id = "mat-checkbox-3-input")
-    @CacheLookup
-    private WebElement boletimDeTaxasDeCmbio;
+public class PreCadastro1 extends Selenium{
+	private Map<String, String> data;
+	private WebDriver driver;
+	private int timeout = 15;
 
-    @FindBy(id = "phone1")
-    @CacheLookup
-    private WebElement celular;
+	@FindBy(id = "mat-checkbox-3-input")
+	@CacheLookup
+	private WebElement boletimDeTaxasDeCmbio;
 
-    @FindBy(id = "cpf")
-    @CacheLookup
-    private WebElement cpf;
+	@FindBy(id = "phone1")
+	@CacheLookup
+	private WebElement celular;
 
-    @FindBy(id = "primary_email")
-    @CacheLookup
-    private WebElement email;
+	@FindBy(id = "cpf")
+	@CacheLookup
+	private WebElement cpf;
 
-    @FindBy(css = "a.cursor-pointer.already_client")
-    @CacheLookup
-    private WebElement entrar;
+	@FindBy(id = "primary_email")
+	@CacheLookup
+	private WebElement email;
 
-    @FindBy(id = "full_name")
-    @CacheLookup
-    private WebElement nomeCompleto;
+	@FindBy(css = "a.cursor-pointer.already_client")
+	@CacheLookup
+	private WebElement entrar;
 
-    @FindBy(id = "mat-checkbox-1-input")
-    @CacheLookup
-    private WebElement novidadespromoes;
+	@FindBy(id = "full_name")
+	@CacheLookup
+	private WebElement nomeCompleto;
 
-    @FindBy(id = "mat-checkbox-2-input")
-    @CacheLookup
-    private WebElement ofertasPblicas;
+	@FindBy(id = "mat-checkbox-1-input")
+	@CacheLookup
+	private WebElement novidadespromoes;
 
-    private final String pageLoadedText = "Investimentos: transações em bolsa, fundos, renda fixa, renda variável e tesouro direto, inclusive operações de câmbio";
+	@FindBy(id = "mat-checkbox-2-input")
+	@CacheLookup
+	private WebElement ofertasPblicas;
 
-    private final String pageUrl = "/cadastro/pre-cadastro";
+	private final String pageLoadedText = "Investimentos: transações em bolsa, fundos, renda fixa, renda variável e tesouro direto, inclusive operações de câmbio";
 
-    @FindBy(id = "buttonNext")
-    @CacheLookup
-    private WebElement seguir;
+	private final String pageUrl = "/cadastro/pre-cadastro";
 
-    @FindBy(id = "reason2")
-    @CacheLookup
-    private WebElement somenteCmbio;
+	@FindBy(id = "buttonNext")
+	@CacheLookup
+	private WebElement seguir;
 
-    @FindBy(id = "reason1")
-    @CacheLookup
-    private WebElement todosOsTiposDeInvestimento;
+	@FindBy(id = "toggle_advisor-input")
+	@CacheLookup
+	private WebElement toggle;
 
-    public PreCadastro1() {
-    	
-    	
-    }
+	@FindBy(id = "advisor")
+	@CacheLookup
+	private WebElement assessor;
 
-    public PreCadastro1(WebDriver driver) {
-        this();
-        this.driver = driver;
-    }
+	@FindBy(id = "reason2")
+	@CacheLookup
+	private WebElement somenteCmbio;
 
-    public PreCadastro1(WebDriver driver, Map<String, String> data) {
-        this(driver);
-        this.data = data;
-    }
+	@FindBy(id = "reason1")
+	@CacheLookup
+	private WebElement todosOsTiposDeInvestimento;
 
-    public PreCadastro1(WebDriver driver, Map<String, String> data, int timeout) {
-        this(driver, data);
-        this.timeout = timeout;
-    }
+	public PreCadastro1() {
 
-    /**
-     * Click on Entrar Link.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 clickEntrarLink() {
-        entrar.click();
-        return this;
-    }
+	}
 
-    /**
-     * Click on Seguir Button.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 clickSeguirButton() {
-        seguir.click();
-        return this;
-    }
+	public PreCadastro1(WebDriver driver) {
+		this();
+		this.driver = driver;
+	}
 
-    /**
-     * Click on Somente Cmbio Button.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 clickSomenteCmbioButton() {
-        somenteCmbio.click();
-        return this;
-    }
+	public PreCadastro1(WebDriver driver, Map<String, String> data) {
+		this(driver);
+		this.data = data;
+	}
 
-    /**
-     * Click on Todos Os Tipos De Investimento Button.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 clickTodosOsTiposDeInvestimentoButton() {
-        todosOsTiposDeInvestimento.click();
-        return this;
-    }
+	public PreCadastro1(WebDriver driver, Map<String, String> data, int timeout) {
+		this(driver, data);
+		this.timeout = timeout;
+	}
 
-    /**
-     * Fill every fields in the page.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 fill() {
-        setNomeCompletoTextField();
-        setCpfTextField();
-        setEmailTextField();
-        setCelularTextField();
-        setNovidadespromoesCheckboxField();
-        setOfertasPblicasCheckboxField();
-        setBoletimDeTaxasDeCmbioCheckboxField();
-        return this;
-    }
+	/**
+	 * Click on Entrar Link.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 clickEntrarLink() {
+		entrar.click();
+		return this;
+	}
 
-    /**
-     * Set Boletim De Taxas De Cmbio Checkbox field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setBoletimDeTaxasDeCmbioCheckboxField() {
-        if (!boletimDeTaxasDeCmbio.isSelected()) {
-            boletimDeTaxasDeCmbio.click();
-        }
-        return this;
-    }
+	/**
+	 * Click on Seguir Button.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 clickSeguirButton() {
+		seguir.click();
+		return this;
+	}
 
-    /**
-     * Set default value to Celular Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setCelularTextField() {
-        return setCelularTextField(data.get("CELULAR"));
-    }
+	public PreCadastro1 setAssessor(String texto) {
+		new Select(assessor).selectByVisibleText(texto);
+		return this;
+	}
 
-    /**
-     * Set value to Celular Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setCelularTextField(String celularValue) {
-        celular.sendKeys(celularValue);
-        return this;
-    }
+	public PreCadastro1 clickToggle() {
+		JavascriptExecutor JSexecutor = (JavascriptExecutor)driver;
+		JSexecutor.executeScript("arguments[0].click();", toggle);
+		return this;
+	}
 
-    /**
-     * Set default value to Cpf Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setCpfTextField() {
-        return setCpfTextField(data.get("CPF"));
-    }
+	/**
+	 * Click on Somente Cmbio Button.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 clickSomenteCmbioButton() {
+		somenteCmbio.click();
+		return this;
+	}
 
-    /**
-     * Set value to Cpf Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setCpfTextField(String cpfValue) {
-        cpf.sendKeys(cpfValue);
-        return this;
-    }
+	/**
+	 * Click on Todos Os Tipos De Investimento Button.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 clickTodosOsTiposDeInvestimentoButton() {
+		todosOsTiposDeInvestimento.click();
+		return this;
+	}
 
-    public WebElement getNomeCompleto() {
+	/**
+	 * Fill every fields in the page.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 fill() {
+		setNomeCompletoTextField();
+		setCpfTextField();
+		setEmailTextField();
+		setCelularTextField();
+		setNovidadespromoesCheckboxField();
+		setOfertasPblicasCheckboxField();
+		setBoletimDeTaxasDeCmbioCheckboxField();
+		return this;
+	}
+
+	/**
+	 * Set Boletim De Taxas De Cmbio Checkbox field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setBoletimDeTaxasDeCmbioCheckboxField() {
+		if (!boletimDeTaxasDeCmbio.isSelected()) {
+			boletimDeTaxasDeCmbio.click();
+		}
+		return this;
+	}
+
+	/**
+	 * Set default value to Celular Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setCelularTextField() {
+		return setCelularTextField(data.get("CELULAR"));
+	}
+
+	/**
+	 * Set value to Celular Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setCelularTextField(String celularValue) {
+		celular.sendKeys(celularValue);
+		return this;
+	}
+
+	/**
+	 * Set default value to Cpf Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setCpfTextField() {
+		return setCpfTextField(data.get("CPF"));
+	}
+
+	/**
+	 * Set value to Cpf Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setCpfTextField(String cpfValue) {
+		cpf.sendKeys(cpfValue);
+		return this;
+	}
+
+	public WebElement getNomeCompleto() {
 		return nomeCompleto;
 	}
 
 	/**
-     * Set default value to Email Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setEmailTextField() {
-        return setEmailTextField(data.get("EMAIL"));
-    }
+	 * Set default value to Email Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setEmailTextField() {
+		return setEmailTextField(data.get("EMAIL"));
+	}
 
-    /**
-     * Set value to Email Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setEmailTextField(String emailValue) {
-        email.sendKeys(emailValue);
-        return this;
-    }
+	/**
+	 * Set value to Email Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setEmailTextField(String emailValue) {
+		email.sendKeys(emailValue);
+		return this;
+	}
 
-    /**
-     * Set default value to Nome Completo Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setNomeCompletoTextField() {
-        return setNomeCompletoTextField(data.get("NOME_COMPLETO"));
-    }
+	/**
+	 * Set default value to Nome Completo Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setNomeCompletoTextField() {
+		return setNomeCompletoTextField(data.get("NOME_COMPLETO"));
+	}
 
-    /**
-     * Set value to Nome Completo Text field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setNomeCompletoTextField(String nomeCompletoValue) {
-        nomeCompleto.sendKeys(nomeCompletoValue);
-        return this;
-    }
+	/**
+	 * Set value to Nome Completo Text field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setNomeCompletoTextField(String nomeCompletoValue) {
+		nomeCompleto.sendKeys(nomeCompletoValue);
+		return this;
+	}
 
-    /**
-     * Set Novidadespromoes Checkbox field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setNovidadespromoesCheckboxField() {
-        if (!novidadespromoes.isSelected()) {
-            novidadespromoes.click();
-        }
-        return this;
-    }
+	/**
+	 * Set Novidadespromoes Checkbox field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setNovidadespromoesCheckboxField() {
+		if (!novidadespromoes.isSelected()) {
+			novidadespromoes.click();
+		}
+		return this;
+	}
 
-    /**
-     * Set Ofertas Pblicas Checkbox field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 setOfertasPblicasCheckboxField() {
-        if (!ofertasPblicas.isSelected()) {
-            ofertasPblicas.click();
-        }
-        return this;
-    }
+	/**
+	 * Set Ofertas Pblicas Checkbox field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 setOfertasPblicasCheckboxField() {
+		if (!ofertasPblicas.isSelected()) {
+			ofertasPblicas.click();
+		}
+		return this;
+	}
 
-    /**
-     * Unset Boletim De Taxas De Cmbio Checkbox field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 unsetBoletimDeTaxasDeCmbioCheckboxField() {
-        if (boletimDeTaxasDeCmbio.isSelected()) {
-            boletimDeTaxasDeCmbio.click();
-        }
-        return this;
-    }
+	/**
+	 * Unset Boletim De Taxas De Cmbio Checkbox field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 unsetBoletimDeTaxasDeCmbioCheckboxField() {
+		if (boletimDeTaxasDeCmbio.isSelected()) {
+			boletimDeTaxasDeCmbio.click();
+		}
+		return this;
+	}
 
-    /**
-     * Unset Novidadespromoes Checkbox field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 unsetNovidadespromoesCheckboxField() {
-        if (novidadespromoes.isSelected()) {
-            novidadespromoes.click();
-        }
-        return this;
-    }
+	/**
+	 * Unset Novidadespromoes Checkbox field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 unsetNovidadespromoesCheckboxField() {
+		if (novidadespromoes.isSelected()) {
+			novidadespromoes.click();
+		}
+		return this;
+	}
 
-    /**
-     * Unset Ofertas Pblicas Checkbox field.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 unsetOfertasPblicasCheckboxField() {
-        if (ofertasPblicas.isSelected()) {
-            ofertasPblicas.click();
-        }
-        return this;
-    }
+	/**
+	 * Unset Ofertas Pblicas Checkbox field.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 unsetOfertasPblicasCheckboxField() {
+		if (ofertasPblicas.isSelected()) {
+			ofertasPblicas.click();
+		}
+		return this;
+	}
 
-    /**
-     * Verify that the page loaded completely.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 verifyPageLoaded() {
-        (new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getPageSource().contains(pageLoadedText);
-            }
-        });
-        return this;
-    }
+	/**
+	 * Verify that the page loaded completely.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 verifyPageLoaded() {
+		(new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver d) {
+				return d.getPageSource().contains(pageLoadedText);
+			}
+		});
+		return this;
+	}
 
-    /**
-     * Verify that current page URL matches the expected URL.
-     *
-     * @return the Primeira class instance.
-     */
-    public PreCadastro1 verifyPageUrl() {
-        (new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
-            public Boolean apply(WebDriver d) {
-                return d.getCurrentUrl().contains(pageUrl);
-            }
-        });
-        return this;
-    }
+	/**
+	 * Verify that current page URL matches the expected URL.
+	 *
+	 * @return the Primeira class instance.
+	 */
+	public PreCadastro1 verifyPageUrl() {
+		(new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
+			public Boolean apply(WebDriver d) {
+				return d.getCurrentUrl().contains(pageUrl);
+			}
+		});
+		return this;
+	}
 }

@@ -31,14 +31,18 @@ import modelo.TerceirosProcuradores12;
 
 public class ScriptCadastro {
 
-	public boolean menorDeIdade, emancipado, gestorDeContas;
+	public boolean menorDeIdade, emancipado, gestorDeContas, estrangeiro;
+	public int tipoDocumento;
 	public Selenium sel;
 
-	public void executar(boolean menorDeIdade, boolean emancipado, boolean brasileiro, boolean gestorDeContas) {
+	public void executar(boolean menorDeIdade, boolean emancipado, boolean estrangeiro, boolean gestorDeContas,
+			int tipoDocumento) {
 
 		this.menorDeIdade = menorDeIdade;
 		this.emancipado = emancipado;
+		this.estrangeiro = estrangeiro;
 		this.gestorDeContas = gestorDeContas;
+		this.tipoDocumento = tipoDocumento;
 
 		sel = new Selenium();
 		sel.inicializar();
@@ -122,19 +126,25 @@ public class ScriptCadastro {
 	}
 
 	public void preencherPrimeiraPagina(WebDriver navegador) {
-		
-		PreCadastro1 preCadastro = new PreCadastro1();
+
+		PreCadastro1 preCadastro = new PreCadastro1(navegador);
 		PageFactory.initElements(navegador, preCadastro);
-		
-		
+
 		preCadastro.setNomeCompletoTextField("Teste " + sel.gerarNomeAleatorio());
 		preCadastro.setCpfTextField(sel.geraCpf.cpf(true));
 		preCadastro.setEmailTextField("julimar.miranda@cedrotech.com");
 		preCadastro.setCelularTextField("34992881747");
+
+		if (gestorDeContas) {
+			preCadastro.clickToggle();
+			sel.esperar(250);
+			preCadastro.setAssessor("DANIEL");
+		}
+
 		if (!navegador.getCurrentUrl().contains("rbinvestimentos")) {
 			preCadastro.clickTodosOsTiposDeInvestimentoButton();
 		}
-		
+
 		sel.salvarPaginaOFFLINE("pre-cadastro");
 		preCadastro.clickSeguirButton();
 	}
@@ -160,14 +170,14 @@ public class ScriptCadastro {
 	}
 
 	private void informacoesPessoais(WebDriver navegador) {
-		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3();
+		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3(sel.navegador);
 		PageFactory.initElements(navegador, informacoesPessoais);
 
 		informacoesPessoais.clickMasculinoButton();
 
 		if (menorDeIdade) {
 			informacoesPessoais.setDataDeNascimentoTextField("12/06/2010");
-			if (emancipado) {
+			if (!emancipado) {
 				if (!sel.navegador.getCurrentUrl().contains("lerosa")
 						&& !sel.navegador.getCurrentUrl().contains("cedrotech"))
 					informacoesPessoais.setResponsvelLegalDropDownListField("MÃE");
@@ -179,6 +189,10 @@ public class ScriptCadastro {
 				informacoesPessoais.setEmailDoResponsvelLegalEmailField("jadmjr+1@gmail.com");
 
 				informacoesPessoais.setUploadDoDocumentoDeIdentificaoComFileField(sel.carregarArquivo("cnh1.jpg"));
+			} else {
+				informacoesPessoais.clickSimButton();
+				informacoesPessoais
+						.setUploadDoDocumentoDeIdentificaoComFileField(sel.carregarArquivo("certidaodenascimento.png"));
 			}
 
 		} else {
@@ -187,12 +201,19 @@ public class ScriptCadastro {
 
 		informacoesPessoais.setEmailSecundrioTextField("jadmjr@gmail.com");
 		informacoesPessoais.setTelefoneFixoTextField("3432177247");
-		informacoesPessoais.setPasDeNascimentoSearchField("");
-		informacoesPessoais.setPasDeNascimentoSearchField("BRASIL");
-		sel.esperar(800);
-		informacoesPessoais.setEstadoDeNascimentoSearchField("MINAS GERAIS");
-		sel.esperar(1500);
-		informacoesPessoais.setCidadeDeNascimentoSearchField("UBERLÂNDIA");
+		// informacoesPessoais.setPasDeNascimentoSearchField("");
+		if (!estrangeiro) {
+			informacoesPessoais.setPasDeNascimentoSearchField("BRASIL");
+			sel.esperar(800);
+			informacoesPessoais.setEstadoDeNascimentoSearchField("MINAS GERAIS");
+			sel.esperar(1500);
+			informacoesPessoais.setCidadeDeNascimentoSearchField("UBERLÂNDIA");
+		}
+		// ESTRANGEIRO
+		else {
+			informacoesPessoais.setPasDeNascimentoSearchField("EGITO");
+			sel.esperar(800);
+		}
 		if (!sel.navegador.getCurrentUrl().contains("lerosa"))
 			informacoesPessoais.setEstadoCivilDropDownListField("SOLTEIRO(A)");
 		else
@@ -200,7 +221,7 @@ public class ScriptCadastro {
 
 		informacoesPessoais.setNomeCompletoDoPaiTextField("PAI " + sel.gerarNomeAleatorio());
 
-		if (!menorDeIdade)
+		if (!menorDeIdade || emancipado)
 			informacoesPessoais.setNomeCompletoDaMeTextField("MAE " + sel.gerarNomeAleatorio());
 
 		informacoesPessoais.clickSeguirButton();
@@ -209,16 +230,35 @@ public class ScriptCadastro {
 	private void preencherTipoDeDocumento(WebDriver navegador) {
 		Documentacao4 documentacao = new Documentacao4();
 		PageFactory.initElements(navegador, documentacao);
-		// FLUXO INFORMANDO RG
-		documentacao.clickRgButton();
-		documentacao.setNmeroDoRgTextField("16472307");
-		documentacao.setEstadoEmissorSearchField("MINAS GERAIS");
-		sel.esperar(800);
-		documentacao.setRgoEmissorDropDownListField("SECRETARIA DE SEGURANÇA PÚBLICA");
-		documentacao.setDataDeEmissoTextField("12/06/2019");
 
-		if (sel.navegador.getCurrentUrl().contains("lerosa")) {
-			documentacao.setComprovantes();
+		if (tipoDocumento == 1) {
+			// FLUXO INFORMANDO RG
+			documentacao.clickRgButton();
+			documentacao.setNumeroDocumentoTextField("16472307");
+			documentacao.setEstadoEmissorSearchField("MINAS GERAIS");
+			sel.esperar(800);
+			documentacao.setRgoEmissorDropDownListField("SECRETARIA DE SEGURANÇA PÚBLICA");
+			documentacao.setDataDeEmissoTextField("12/06/2019");
+
+			if (sel.navegador.getCurrentUrl().contains("lerosa")) {
+				documentacao.setComprovantes();
+			}
+		} else if (tipoDocumento == 2) {
+			documentacao.clickCnhButton();
+			documentacao.setNumeroDocumentoTextField("16472307");
+			documentacao.setEstadoEmissorSearchField("MINAS GERAIS");
+			sel.esperar(800);
+			documentacao.setRgoEmissorDropDownListField("DEPARTAMENTO ESTADUAL DE TRÂNSITO");
+			documentacao.setDataDeEmissoTextField("12/06/2019");
+			documentacao.setDataDeValidadeCNH("30/12/2020");
+		} else if (tipoDocumento == 3) {
+			documentacao.clickRneButton();
+			documentacao.setNumeroDocumentoTextField("16472307");
+			documentacao.setEstadoEmissorSearchField("MINAS GERAIS");
+			documentacao.setRgoEmissorDropDownListField("MINISTÉRIO DA JUSTIÇA");
+			documentacao.setDataDeEmissoTextField("12/06/2019");
+			documentacao.setDataDeValidadeCNH("30/12/2020");
+
 		}
 
 		documentacao.clickSeguirButton();

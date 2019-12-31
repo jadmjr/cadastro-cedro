@@ -24,9 +24,17 @@ public class Documentacao4 extends Selenium {
 	@CacheLookup
 	private WebElement cnh;
 
+	@FindBy(id = "rne")
+	@CacheLookup
+	private WebElement rne;
+
 	@FindBy(id = "issuing_date")
 	@CacheLookup
 	private WebElement dataDeEmisso;
+
+	@FindBy(id = "expiration_date")
+	@CacheLookup
+	private WebElement validadeCnh;
 
 	@FindBy(id = "issuing_state")
 	@CacheLookup
@@ -38,7 +46,7 @@ public class Documentacao4 extends Selenium {
 
 	@FindBy(id = "document_number")
 	@CacheLookup
-	private WebElement nmeroDoRg;
+	private WebElement nmeroDoDocumento;
 
 	private final String pageLoadedText = "Para sua identificação e segurança, essas informações são necessárias para a criação e validação do seu cadastro";
 
@@ -95,6 +103,12 @@ public class Documentacao4 extends Selenium {
 		cnh.click();
 		return this;
 	}
+
+	public Documentacao4 clickRneButton() {
+		rne.click();
+		return this;
+	}
+
 
 	public Documentacao4 setComprovantes() {
 		comprovantes.get(0).sendKeys(carregarArquivo("images.png"));
@@ -187,6 +201,12 @@ public class Documentacao4 extends Selenium {
 		return this;
 	}
 
+	public Documentacao4 setDataDeValidadeCNH(String validade) {
+		validadeCnh.sendKeys(validade);
+		validadeCnh.sendKeys(Keys.TAB);
+		return this;
+	}
+
 	/**
 	 * Set default value to Estado Emissor Search field.
 	 *
@@ -212,7 +232,7 @@ public class Documentacao4 extends Selenium {
 	 * @return the Quarta class instance.
 	 */
 	public Documentacao4 setNmeroDoRgTextField() {
-		return setNmeroDoRgTextField(data.get("NMERO_DO_RG"));
+		return setNumeroDocumentoTextField(data.get("NMERO_DO_RG"));
 	}
 
 	/**
@@ -220,8 +240,8 @@ public class Documentacao4 extends Selenium {
 	 *
 	 * @return the Quarta class instance.
 	 */
-	public Documentacao4 setNmeroDoRgTextField(String nmeroDoRgValue) {
-		nmeroDoRg.sendKeys(nmeroDoRgValue);
+	public Documentacao4 setNumeroDocumentoTextField(String nmeroDoRgValue) {
+		nmeroDoDocumento.sendKeys(nmeroDoRgValue);
 		return this;
 	}
 

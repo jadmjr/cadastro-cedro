@@ -3,54 +3,58 @@ package visao;
 import java.util.Scanner;
 
 import controle.ScriptCadastro;
+import net.bytebuddy.asm.Advice.Exit;
 
 public class Principal {
 
+	static boolean MENOR_DE_IDADE = false;
+	static boolean EMANCIPADO = false;
+	static boolean ESTRANGEIRO = false;
+	static boolean GESTOR = false;
+	static int TIPO_DOCUMENTO = 1; // 1 PARA RG 2 PARA CNH 3 PARA RNE
+
 	public static void main(String[] args) {
-
-		boolean MENOR_DE_IDADE = false;
-		boolean EMANCIPADO = true;
-		boolean BRASILEIRO = false;
-		boolean GESTOR = false;
-
-		// int procuradores = 0;
+		// \n int procuradores = 0;
 
 		Scanner sc = new Scanner(System.in);
 
-		System.out.println("*BEM VINDO AO CROONER*");
-		System.out.println("Digite (S) para Sim e (N) para Não.");
+		System.out.println("\nCenários Automatizados:\n \n 1 - MENOR DE IDADE EMANIPADO\n 2 - "
+				+ "MENOR DE IDADE NÃO EMANCIPADO\n 3 - ESTRANGEIRO COM RNE\n 4 - MAIOR DE IDADE COM CNH	\n 5 - MAIOR DE IDADE COM RG \n 6 - CADASTRO COM GESTOR");
 
-		System.out.println("Deseja um cliente menor de idade? ");
-		String menorDeIdade = sc.nextLine();
+		System.out.println("\nInforme abaixo o número do cenário que deseja reproduzir: ");
+		int cenario = sc.nextInt();
 
-		String emancipado = sc.nextLine();
-		if (menorDeIdade.toUpperCase().contains("S")) {
-			System.out.println("Deseja um menor emancipado ?");
-			emancipado = sc.nextLine();
+		switch (cenario) {
+		case 1:
+			MENOR_DE_IDADE = true;
+			EMANCIPADO = true;
+			break;
+		case 2:
+			MENOR_DE_IDADE = true;
+			EMANCIPADO = false;
+			break;
+		case 3:
+			ESTRANGEIRO = true;
+			TIPO_DOCUMENTO = 3;
+			break;
+		case 4:
+			TIPO_DOCUMENTO = 2;
+			break;
+		case 5:
+			TIPO_DOCUMENTO = 1;
+			break;
+		case 6:
+			GESTOR = true;
+			TIPO_DOCUMENTO = 1;
+			break;
+		default:
+			System.out.println("Você é um bricalhão mesmo! Adeus...");
+			System.exit(0);
+			break;
 		}
 
-		System.out.println("Deseja um cliente Brasileiro?");
-		String brasileio = sc.nextLine();
-
-		System.out.println("Deseja um Assessor Gestor de Contas?");
-		String gestor = sc.nextLine();
-
-		System.out.println("*Agora irei criar o cliente para você utilizando a interface gráfica ...*");
-
-		if (menorDeIdade.toUpperCase().contains("S"))
-			MENOR_DE_IDADE = true;
-		if (emancipado.toUpperCase().contains("S"))
-			EMANCIPADO = true;
-		if (brasileio.toUpperCase().contains("S"))
-			BRASILEIRO = true;
-		if (gestor.toUpperCase().contains("S"))
-			GESTOR = true;
-
-		System.out.println("MENOR_DE_IDADE: " + MENOR_DE_IDADE + "EMANCIPADO: " + EMANCIPADO + "BRASILEIRO: "
-				+ BRASILEIRO + "GESTOR: " + GESTOR + "");
-
 		ScriptCadastro script = new ScriptCadastro();
-		script.executar(MENOR_DE_IDADE, EMANCIPADO, BRASILEIRO, GESTOR);
+		script.executar(MENOR_DE_IDADE, EMANCIPADO, ESTRANGEIRO, GESTOR, TIPO_DOCUMENTO);
 
 	}
 
