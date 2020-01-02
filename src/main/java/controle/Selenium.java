@@ -3,10 +3,13 @@ package controle;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -46,7 +49,7 @@ public class Selenium {
 		options.addArguments("start-maximized");
 		// options.addArguments("test-type");
 		// options.addArguments("test-type=browser");
-		options.addArguments("auto-open-devtools-for-tabs");
+		// options.addArguments("auto-open-devtools-for-tabs");
 		// options.addArguments("disable-default-apps");
 		// options.addArguments("--disable-popup-blocking");
 		// options.addArguments("enable-precise-memory-info");
@@ -64,7 +67,7 @@ public class Selenium {
 		JSexecutor = (JavascriptExecutor) navegador;
 		randon = new Random();
 		geraCpf = new GerarCpfCnpj();
-		navegador.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		navegador.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
 		js = (JavascriptExecutor) navegador;
 
@@ -104,6 +107,13 @@ public class Selenium {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public String  pegarDataHora() {
+		Date date = new Date(System.currentTimeMillis() - 3600 * 1000);
+		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
+		String dataHoras = formatter.format(date);
+		return dataHoras;
 	}
 
 	public void esperarPorElemento(WebDriver navegador, WebElement elemento) {

@@ -16,6 +16,14 @@ public class ConfirmacaoDeCadastro {
 	@CacheLookup
 	private WebElement enviarToken;
 
+	@FindBy(id = "token")
+	@CacheLookup
+	private WebElement campoToken;
+
+	@FindBy(xpath = "//*[@id=\"registration-confirmation\"]/div/form/div[4]/div/div[2]/button")
+	@CacheLookup
+	private WebElement validarToken;
+
 	@FindBy(id = "buttonNext")
 	@CacheLookup
 	private WebElement seguir;
@@ -59,6 +67,21 @@ public class ConfirmacaoDeCadastro {
 	 */
 	public ConfirmacaoDeCadastro clickSeguirButton() {
 		seguir.click();
+		return this;
+	}
+
+	public ConfirmacaoDeCadastro clickEnviarToken() {
+		enviarToken.click();
+		return this;
+	}
+
+	public ConfirmacaoDeCadastro clickValidarToken() {
+		validarToken.click();
+		return this;
+	}
+
+	public ConfirmacaoDeCadastro preencherCampoToken(String token) {
+		campoToken.sendKeys(token);
 		return this;
 	}
 
