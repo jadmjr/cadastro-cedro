@@ -8,15 +8,25 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.logging.LogType;
+import org.openqa.selenium.logging.LoggingPreferences;
+import org.openqa.selenium.remote.CapabilityType;
+import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -39,7 +49,7 @@ public class Selenium {
 
 	public void inicializar() {
 
-		ChromeOptions options = new ChromeOptions();
+		ChromeOptions options = new ChromeOptions();		
 
 		// options.addArguments("user-data-dir=C:\\Users\\julimar.miranda\\AppData\\Local\\Google\\Chrome\\User
 		// Data\\");
@@ -64,9 +74,18 @@ public class Selenium {
 		// options.setExperimentalOption("useAutomationExtension", false);
 		// options.setBinary("C:\\Program Files
 		// (x86)\\Google\\Chrome\\Application\\chrome.exe");
+		
+		DesiredCapabilities cap = DesiredCapabilities.chrome();
+		cap.setCapability(ChromeOptions.CAPABILITY, options);
+
+		// set performance logger
+		// this sends Network.enable to chromedriver
+		LoggingPreferences logPrefs = new LoggingPreferences();
+		logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
+		cap.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
 
 		System.setProperty("webdriver.chrome.driver", pathChromeServer);
-		navegador = new ChromeDriver(options);
+		navegador = new ChromeDriver(cap);
 		dormir = new WebDriverWait(navegador, 10);
 		JSexecutor = (JavascriptExecutor) navegador;
 		randon = new Random();
@@ -75,6 +94,60 @@ public class Selenium {
 
 		js = (JavascriptExecutor) navegador;
 
+	}
+	
+	public void lerLog(WebDriver driver){
+		 // then ask for all the performance logs from this request
+        // one of them will contain the Network.responseReceived method
+        // and we shall find the "last recorded url" response
+        LogEntries logs = driver.manage().logs().get("performance");
+
+        int status = -1;
+
+        System.out.println("\nList of log entries:\n");
+
+        for (Iterator<LogEntry> it = logs.iterator(); it.hasNext();)
+        {
+            LogEntry entry = it.next();
+
+            try
+            {
+                JSONObject json = new JSONObject(entry.getMessage());
+
+                System.out.println(json.toString());
+
+                JSONObject message = json.getJSONObject("message");
+                String method = message.getString("method");
+
+                if (method != null
+                        && "Network.responseReceived".equals(method))
+                {
+                    JSONObject params = message.getJSONObject("params");
+
+                    JSONObject response = params.getJSONObject("response");
+                    String messageUrl = response.getString("url");
+
+                    if (driver.getCurrentUrl().equals(messageUrl))
+                    {
+                        status = response.getInt("status");
+
+                        System.out.println(
+                                "---------- bingo !!!!!!!!!!!!!! returned response for "
+                                        + messageUrl + ": " + status);
+
+                        System.out.println(
+                                "---------- bingo !!!!!!!!!!!!!! headers: "
+                                        + response.get("headers"));
+                    }
+                }
+            } catch (JSONException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("\nstatus code: " + status);
 	}
 
 	public void abrirURL(String url) {
@@ -94,13 +167,13 @@ public class Selenium {
 		}
 		return armazenaChaves;
 	}
-	
+
 	public String buscarTokenNoProtonMail(WebDriver navegador, String dataHora) {
 
 		JSexecutor.executeScript("window.open()");
 		ArrayList<String> tabs = new ArrayList<String>(navegador.getWindowHandles());
 		navegador.switchTo().window(tabs.get(1));
-		
+
 		Proton proton = new Proton(navegador);
 		PageFactory.initElements(navegador, proton);
 
@@ -132,7 +205,7 @@ public class Selenium {
 		}
 	}
 
-	public String  pegarDataHora() {
+	public String pegarDataHora() {
 		Date date = new Date(System.currentTimeMillis() - 3600 * 1000);
 		SimpleDateFormat formatter = new SimpleDateFormat("HH:mm");
 		String dataHoras = formatter.format(date);

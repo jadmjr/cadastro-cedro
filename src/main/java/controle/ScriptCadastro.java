@@ -58,7 +58,7 @@ public class ScriptCadastro {
 
 		try {
 			preencherPrimeiraPagina(sel.navegador);
-
+			sel.lerLog(sel.navegador);
 			selecionaPlano(sel.navegador);
 
 			informacoesPessoais(sel.navegador);
