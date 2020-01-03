@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -16,8 +17,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import modelo.Proton;
 
 public class Selenium {
 
@@ -49,7 +53,7 @@ public class Selenium {
 		options.addArguments("start-maximized");
 		// options.addArguments("test-type");
 		// options.addArguments("test-type=browser");
-		// options.addArguments("auto-open-devtools-for-tabs");
+		options.addArguments("auto-open-devtools-for-tabs");
 		// options.addArguments("disable-default-apps");
 		// options.addArguments("--disable-popup-blocking");
 		// options.addArguments("enable-precise-memory-info");
@@ -89,6 +93,25 @@ public class Selenium {
 			armazenaChaves += letras.substring(index, index + 1);
 		}
 		return armazenaChaves;
+	}
+	
+	public String buscarTokenNoProtonMail(WebDriver navegador, String dataHora) {
+
+		JSexecutor.executeScript("window.open()");
+		ArrayList<String> tabs = new ArrayList<String>(navegador.getWindowHandles());
+		navegador.switchTo().window(tabs.get(1));
+		
+		Proton proton = new Proton(navegador);
+		PageFactory.initElements(navegador, proton);
+
+		String token = proton.buscarToken(dataHora);
+
+		navegador.close();
+		tabs = new ArrayList<String>(navegador.getWindowHandles());
+		navegador.switchTo().window(tabs.get(0));
+
+		return token;
+
 	}
 
 	public void selecionarPrimeiraOpcao(WebElement input, String texto) {

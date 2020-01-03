@@ -21,7 +21,7 @@ public class Principal {
 		System.out.println("\nCenários Automatizados:\n \n 1 - MENOR DE IDADE EMANIPADO\n 2 - "
 				+ "MENOR DE IDADE NÃO EMANCIPADO\n 3 - ESTRANGEIRO COM RNE\n 4 - MAIOR DE IDADE COM CNH	\n 5 - MAIOR DE IDADE COM RG \n 6 - CADASTRO COM GESTOR");
 
-		System.out.println("\nInforme abaixo o número do cenário que deseja reproduzir: ");
+		System.out.println("\nInforme abaixo o número do cenário que deseja reproduzir e pressione enter: ");
 		int cenario = sc.nextInt();
 
 		switch (cenario) {

@@ -285,29 +285,30 @@ public class Proton extends Selenium {
 	}
 
 	public String buscarToken(String dataHora) {
-		
-		
+
+		if (!this.driver.getCurrentUrl().contains("https://mail.protonmail.com/inbox"))
+			abrirProtonMail();
+
 		for (WebElement conversa : conversas) {
-			//dataHora = "17:17";
+
 			String horas = conversa.findElement(By.className("time")).getText();
 
 			if (horas.length() <= 5) {
 				if (dataHora.contains(horas)) {
 
 					conversa.click();
-
-					// This will scroll the web page till end.
-					JSexecutor = (JavascriptExecutor) this.driver;
-					JSexecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+					esperar(2000);
+					// JSexecutor = (JavascriptExecutor) this.driver;
+					// JSexecutor.executeScript("window.scrollTo(0, document.body.scrollHeight)");
 
 					WebElement box = this.driver.findElement(By.id("pm_thread"));
 					List<WebElement> mensagens = box.findElements(By.tagName("article"));
-					mensagens.get(mensagens.size() - 1).click();
+					// mensagens.get(mensagens.size() - 1).click();
 					String token = mensagens.get(mensagens.size() - 1).findElement(By.tagName("h1")).getText();
 					return token;
 
 				} else {
-					//this.driver.navigate().refresh();
+					// this.driver.navigate().refresh();
 					buscarToken(dataHora);
 				}
 
@@ -315,6 +316,16 @@ public class Proton extends Selenium {
 		}
 
 		return null;
+	}
+
+	public void abrirProtonMail() {
+
+		this.driver.get("https://mail.protonmail.com/login");
+
+		setLoginDeAcessoTextField("robozim.qa@protonmail.com");
+		setSenhaPasswordField("cedro@nds");
+
+		clickEntrarButton();
 	}
 
 	/**

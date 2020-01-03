@@ -57,9 +57,6 @@ public class ScriptCadastro {
 		// sel.abrirURL("https://plataforma.lerosa.com.br/cadastro/");
 
 		try {
-			// TESTE
-			//buscarTokenNoProtonMail(sel.navegador, "15:39");
-
 			preencherPrimeiraPagina(sel.navegador);
 
 			selecionaPlano(sel.navegador);
@@ -335,86 +332,19 @@ public class ScriptCadastro {
 	}
 
 	private void confirmarCadastro(WebDriver navegador) {
+
 		ConfirmacaoDeCadastro confirmar = new ConfirmacaoDeCadastro();
 		PageFactory.initElements(navegador, confirmar);
+
 		confirmar.enviarToken();
-		String token = buscarTokenNoProtonMail(navegador, sel.pegarDataHora());
+
+		String token = sel.buscarTokenNoProtonMail(navegador, sel.pegarDataHora());
+
 		confirmar.preencherCampoToken(token);
 		confirmar.clickValidarToken();
+
 		sel.esperar(1500);
 		confirmar.clickSeguirButton();
-	}
-
-	private String buscarTokenNoProtonMail(WebDriver navegador, String dataHora) {
-		System.out.println("Data envio:" + dataHora);
-		sel.JSexecutor.executeScript("window.open()");
-		ArrayList<String> tabs = new ArrayList<String>(navegador.getWindowHandles());
-		navegador.switchTo().window(tabs.get(1));
-
-		abrirProtonMail(navegador);
-
-		Proton proton = new Proton(navegador);
-		PageFactory.initElements(navegador, proton);
-
-		String token = proton.buscarToken(dataHora);
-
-		navegador.close();
-		tabs = new ArrayList<String>(navegador.getWindowHandles());
-		navegador.switchTo().window(tabs.get(0));
-
-		return token;
-
-	}
-
-	private void abrirProtonMail(WebDriver navegador) {
-
-		navegador.get("https://mail.protonmail.com/login");
-
-		Proton proton = new Proton(navegador);
-		PageFactory.initElements(navegador, proton);
-
-		proton.setLoginDeAcessoTextField("robozim.qa@protonmail.com");
-		proton.setSenhaPasswordField("cedro@nds");
-
-		proton.clickEntrarButton();
-	}
-
-	private void gerarTokenDeConfirmacao(WebDriver navegador) {
-		WebStorage webStorage = (WebStorage) new Augmenter().augment(sel.navegador);
-		LocalStorage localStorage = webStorage.getLocalStorage();
-
-		String meioAssinatura = "meioass";
-		String email = "email@emia.com";
-		String data_person = localStorage.getItem("data_person");
-		String x_protocol = localStorage.getItem("x-protocol");
-		String app_token = localStorage.getItem("app_token");
-
-		System.out.println(data_person);
-		System.out.println(x_protocol);
-		System.out.println(app_token);
-
-		JSONObject person_id = new JSONObject(data_person);
-
-		Client client = Client.create();
-
-		WebResource webResource = client
-				.resource("http://plataforma.lerosa.com.br:5004/cedro_contract_digital/1.0.0/signature_token_person");
-
-		String input = "{ \"Data\": {\"signature_token_type_id\": " + meioAssinatura + ", \"person_id\": "
-				+ person_id.getInt("id") + ", \"email\": \"" + email + "\" } }";
-
-		System.out.println(input);
-
-		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, input);
-
-		if (response.getStatus() != 201) {
-			throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-		}
-
-		System.out.println("Output from Server .... \n");
-		String output = response.getEntity(String.class);
-		System.out.println(output);
-
 	}
 
 }
