@@ -3,7 +3,6 @@ package visao;
 import java.util.Scanner;
 
 import controle.ScriptCadastro;
-import net.bytebuddy.asm.Advice.Exit;
 
 public class Principal {
 
@@ -12,17 +11,47 @@ public class Principal {
 	static boolean ESTRANGEIRO = false;
 	static boolean GESTOR = false;
 	static int TIPO_DOCUMENTO = 1; // 1 PARA RG 2 PARA CNH 3 PARA RNE
+	static String ambiente;
 
 	public static void main(String[] args) {
 		// \n int procuradores = 0;
 
 		Scanner sc = new Scanner(System.in);
 
+		System.out.println("Informe o ambiente em que deseja executar o automato: ");
+
+		System.out.println("\n 1 - Cedro QA \n 2 - Cedro DEV "
+				+ "\n 3 - UAT RB Investimentos \n 4 - Plataforma Lerosa \n 5 - Cadastro Trinus \n");
+		int opcao = sc.nextInt();
+
+		switch (opcao) {
+		case 1:
+			ambiente = "https://qa.cedrotech.com/cadastro/pre-cadastro";
+			break;
+		case 2:
+			ambiente = "https://dev.cedrotech.com/cadastro/pre-cadastro";
+			break;
+		case 3:
+			ambiente = "https://uat.rbinvestimentos.com/cadastro/";
+			break;
+		case 4:
+			ambiente = "https://plataforma.lerosa.com.br/cadastro/";
+			break;
+		case 5:
+			ambiente = "http://cadastrodigital-trinus.cedrotech.com/cadastro/";
+			break;
+		default:
+			System.exit(0);
+			break;
+		}
+		
 		System.out.println("\nCenários Automatizados:\n \n 1 - MENOR DE IDADE EMANIPADO\n 2 - "
 				+ "MENOR DE IDADE NÃO EMANCIPADO\n 3 - ESTRANGEIRO COM RNE\n 4 - MAIOR DE IDADE COM CNH	\n 5 - MAIOR DE IDADE COM RG \n 6 - CADASTRO COM GESTOR");
 
-		System.out.println("\nInforme abaixo o número do cenário que deseja reproduzir e pressione enter: ");
+		System.out.println("\nInforme abaixo o número do cenário que deseja reproduzir e pressione enter: \n");
 		int cenario = sc.nextInt();
+		
+		sc.close();
 
 		switch (cenario) {
 		case 1:
@@ -54,7 +83,7 @@ public class Principal {
 		}
 
 		ScriptCadastro script = new ScriptCadastro();
-		script.executar(MENOR_DE_IDADE, EMANCIPADO, ESTRANGEIRO, GESTOR, TIPO_DOCUMENTO);
+		script.executar(MENOR_DE_IDADE, EMANCIPADO, ESTRANGEIRO, GESTOR, TIPO_DOCUMENTO, ambiente);
 
 	}
 

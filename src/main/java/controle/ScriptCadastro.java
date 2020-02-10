@@ -1,18 +1,8 @@
 package controle;
 
-import java.util.ArrayList;
-
-import org.json.JSONObject;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.html5.LocalStorage;
-import org.openqa.selenium.html5.WebStorage;
-import org.openqa.selenium.remote.Augmenter;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
 
 import modelo.CondicoesGerais;
 import modelo.ConfirmaPerfilInvestidor10;
@@ -29,7 +19,6 @@ import modelo.Pendencias;
 import modelo.PerfilInvestidor9;
 //TELAS
 import modelo.PreCadastro1;
-import modelo.Proton;
 import modelo.SelecaoDePlanos2;
 import modelo.TerceirosProcuradores12;
 
@@ -40,7 +29,7 @@ public class ScriptCadastro {
 	public Selenium sel;
 
 	public void executar(boolean menorDeIdade, boolean emancipado, boolean estrangeiro, boolean gestorDeContas,
-			int tipoDocumento) {
+			int tipoDocumento, String ambiente) {
 
 		this.menorDeIdade = menorDeIdade;
 		this.emancipado = emancipado;
@@ -51,14 +40,11 @@ public class ScriptCadastro {
 		sel = new Selenium();
 		sel.inicializar();
 
-		// sel.abrirURL("https://qa.cedrotech.com/cadastro/pre-cadastro");
-		// sel.abrirURL("https://dev.cedrotech.com/cadastro/pre-cadastro");
-		sel.abrirURL("https://uat.rbinvestimentos.com/cadastro/");
-		// sel.abrirURL("https://plataforma.lerosa.com.br/cadastro/");
+		sel.abrirURL(ambiente);
 
 		try {
 			preencherPrimeiraPagina(sel.navegador);
-			sel.lerLog(sel.navegador);
+			//ESTUDAR - sel.lerLog(sel.navegador);
 			selecionaPlano(sel.navegador);
 
 			informacoesPessoais(sel.navegador);
@@ -78,14 +64,7 @@ public class ScriptCadastro {
 			confirmarCadastro(sel.navegador);
 
 		} catch (Exception e) {
-
 			e.printStackTrace();
-
-			/*
-			 * if (sel.navegador.findElement(By.id("information-modal")).getText()
-			 * .contains("Estamos com instabilidade no sistema, por favor tente novamente mais tarde!"
-			 * )) System.out.println("Sistema com instabilidade");
-			 */
 		}
 
 	}
@@ -111,7 +90,6 @@ public class ScriptCadastro {
 			preCadastro.clickTodosOsTiposDeInvestimentoButton();
 		}
 
-		// sel.salvarPaginaOFFLINE("pre-cadastro");
 		preCadastro.clickSeguirButton();
 	}
 
@@ -151,7 +129,7 @@ public class ScriptCadastro {
 					informacoesPessoais.setResponsvelLegalDropDownListField("Mãe");
 				informacoesPessoais.setNomeDoResponsvelLegalTextField("REPRESENTA " + sel.gerarNomeAleatorio());
 				informacoesPessoais.setCpfDoResponsvelLegalTextField(sel.geraCpf.cpf(true));
-				informacoesPessoais.setRgDoResponsvelLegalTextField("16470301");
+				informacoesPessoais.setRgDoResponsvelLegalTextField("17405201");
 				informacoesPessoais.setEmailDoResponsvelLegalEmailField("jadmjr+1@gmail.com");
 
 				informacoesPessoais.setUploadDoDocumentoDeIdentificaoComFileField(sel.carregarArquivo("cnh1.jpg"));
@@ -167,11 +145,13 @@ public class ScriptCadastro {
 
 		informacoesPessoais.setEmailSecundrioTextField("jadmjr@gmail.com");
 		informacoesPessoais.setTelefoneFixoTextField("3432177247");
-		// informacoesPessoais.setPasDeNascimentoSearchField("");
 		if (!estrangeiro) {
 			informacoesPessoais.setPasDeNascimentoSearchField("BRASIL");
 			sel.esperar(800);
-			informacoesPessoais.setEstadoDeNascimentoSearchField("MINAS GERAIS");
+			if(sel.navegador.getCurrentUrl().contains("qa.cedrotech.com"))
+				informacoesPessoais.setEstadoDeNascimentoCedroQASearchField("MINAS GERAIS");
+			else
+				informacoesPessoais.setEstadoDeNascimentoSearchField("MINAS GERAIS");
 			sel.esperar(1500);
 			informacoesPessoais.setCidadeDeNascimentoSearchField("UBERLÂNDIA");
 		}

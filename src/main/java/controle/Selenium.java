@@ -54,7 +54,7 @@ public class Selenium {
 		// options.addArguments("user-data-dir=C:\\Users\\julimar.miranda\\AppData\\Local\\Google\\Chrome\\User
 		// Data\\");
 		// SEM UI
-		// options.addArguments("--headless");
+		//options.addArguments("--headless");
 		// options.addArguments("test-type");
 		options.addArguments("enable-extensions");
 		// options.addArguments("disable-infobars");

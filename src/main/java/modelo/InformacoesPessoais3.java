@@ -46,6 +46,10 @@ public class InformacoesPessoais3 extends Selenium {
 	@FindBy(id = "state")
 	@CacheLookup
 	private WebElement estadoDeNascimento;
+	
+	@FindBy(id = "mat-input-1")
+	@CacheLookup
+	private WebElement estadoDeNascimentoCedroQA;
 
 	@FindBy(id = "female")
 	@CacheLookup
@@ -342,6 +346,12 @@ public class InformacoesPessoais3 extends Selenium {
 		selecionarPrimeiraOpcao(estadoDeNascimento, estadoDeNascimentoValue);
 		return this;
 	}
+	
+	public InformacoesPessoais3 setEstadoDeNascimentoCedroQASearchField(String estadoDeNascimentoValue) {
+		selecionarPrimeiraOpcao(estadoDeNascimentoCedroQA, estadoDeNascimentoValue);
+		return this;
+	}
+
 
 	/**
 	 * Set default value to Nome Completo Da Me Text field.
