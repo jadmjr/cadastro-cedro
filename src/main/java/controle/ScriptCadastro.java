@@ -235,10 +235,11 @@ public class ScriptCadastro {
 	private void preencherInformacoesFinanceiras(WebDriver navegador) {
 		InformacoesFinanceiras7 informacoesFinanceiras = new InformacoesFinanceiras7();
 		PageFactory.initElements(navegador, informacoesFinanceiras);
-		informacoesFinanceiras.setBensImveisTextField("150000");
-		informacoesFinanceiras.setOutrosBensEValoresTextField("155000");
-		informacoesFinanceiras.setRendimentosMensaisTextField("9000");
-		informacoesFinanceiras.setOutrosRendimentosMensaisTextField("5000");
+		informacoesFinanceiras.setRendimentosMensaisTextField("150000");
+		informacoesFinanceiras.setOutrosRendimentosMensaisTextField("155000");
+		informacoesFinanceiras.setAplicaoFinanceiraTextField("9000");
+		informacoesFinanceiras.setTotalBensImveisbensMveisTextField("5000");
+		informacoesFinanceiras.setCheckBox();
 		informacoesFinanceiras.clickSeguirButton();
 	}
 
