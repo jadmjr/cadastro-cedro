@@ -7,6 +7,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import modelo.CondicoesGerais;
 import modelo.ConfirmaPerfilInvestidor10;
 import modelo.ConfirmacaoDeCadastro;
+import modelo.DeclaracaoDeProposito;
 import modelo.Declaracoes11;
 import modelo.Documentacao4;
 import modelo.Endereco5;
@@ -22,7 +23,7 @@ import modelo.PreCadastro1;
 import modelo.SelecaoDePlanos2;
 import modelo.TerceirosProcuradores12;
 
-public class ScriptCadastro {
+public class ScriptCadastro implements Runnable {
 
 	public boolean menorDeIdade, emancipado, gestorDeContas, estrangeiro;
 	public int tipoDocumento;
@@ -42,30 +43,7 @@ public class ScriptCadastro {
 
 		sel.abrirURL(ambiente);
 
-		try {
-			preencherPrimeiraPagina(sel.navegador);
-			//ESTUDAR - sel.lerLog(sel.navegador);
-			selecionaPlano(sel.navegador);
-
-			informacoesPessoais(sel.navegador);
-
-			preencherTipoDeDocumento(sel.navegador);
-			preencherEndereco(sel.navegador);
-			preencherInformacoesProfissionais(sel.navegador);
-			preencherInformacoesFinanceiras(sel.navegador);
-			preencherInformacoesBancarias(sel.navegador);
-			preencherPerfilInvestidor(sel.navegador);
-			confirmarPerfilInvestidor(sel.navegador);
-			preencherDeclaracoes(sel.navegador);
-			informarProcuradores(sel.navegador);
-			enderecoCorrespondencia(sel.navegador);
-			preencherCondicoesGerais(sel.navegador);
-			preencherPendencias(sel.navegador);
-			confirmarCadastro(sel.navegador);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		
 
 	}
 
@@ -148,7 +126,7 @@ public class ScriptCadastro {
 		if (!estrangeiro) {
 			informacoesPessoais.setPasDeNascimentoSearchField("BRASIL");
 			sel.esperar(800);
-			if(sel.navegador.getCurrentUrl().contains("qa.cedrotech.com"))
+			if (sel.navegador.getCurrentUrl().contains("qa.cedrotech.com"))
 				informacoesPessoais.setEstadoDeNascimentoCedroQASearchField("MINAS GERAIS");
 			else
 				informacoesPessoais.setEstadoDeNascimentoSearchField("MINAS GERAIS");
@@ -239,7 +217,8 @@ public class ScriptCadastro {
 		informacoesFinanceiras.setOutrosRendimentosMensaisTextField("155000");
 		informacoesFinanceiras.setAplicaoFinanceiraTextField("9000");
 		informacoesFinanceiras.setTotalBensImveisbensMveisTextField("5000");
-		informacoesFinanceiras.setCheckBox();
+		if (!navegador.getCurrentUrl().contains("lerosa"))
+			informacoesFinanceiras.setCheckBox();
 		informacoesFinanceiras.clickSeguirButton();
 	}
 
@@ -277,6 +256,17 @@ public class ScriptCadastro {
 
 	}
 
+	private void preencherDeclaracaoProposito(WebDriver navegador) {
+		if (sel.navegador.getCurrentUrl().contains("rbinvestimentos")) {
+			DeclaracaoDeProposito decProp = new DeclaracaoDeProposito();
+			PageFactory.initElements(navegador, decProp);
+			decProp.marcarCheckBox();
+			decProp.preecherIndicacao("TESTE JADMJR");
+			decProp.clickSeguirButton();
+		}
+
+	}
+
 	private void informarProcuradores(WebDriver navegador) {
 		TerceirosProcuradores12 terceiros = new TerceirosProcuradores12();
 		PageFactory.initElements(navegador, terceiros);
@@ -290,17 +280,25 @@ public class ScriptCadastro {
 		if (!navegador.getCurrentUrl().contains("rbinvestimentos")) {
 			EnderecoCorrespondecia13 enderecoC = new EnderecoCorrespondecia13();
 			PageFactory.initElements(navegador, enderecoC);
-			sel.dormir.until(ExpectedConditions.visibilityOf(enderecoC.getInputNoReceberCorrespondecia()));
 			enderecoC.setNoDesejoReceberCorrespondnciasCheckboxField();
 			enderecoC.clickSeguirButton();
+			sel.esperar(1000);
+			enderecoC.aceitarTermos();
+			enderecoC.clickSeguirModalButton();
+
 		}
 	}
 
 	private void preencherCondicoesGerais(WebDriver navegador) {
-		CondicoesGerais condicoes = new CondicoesGerais();
-		PageFactory.initElements(navegador, condicoes);
-		condicoes.aceitar();
-		condicoes.clickSeguirButton();
+		if (!navegador.getCurrentUrl().contains("lerosa")) {
+			CondicoesGerais condicoes = new CondicoesGerais();
+			PageFactory.initElements(navegador, condicoes);
+			sel.esperar(600);
+			condicoes.aceitar();
+			condicoes.clickSeguirButton();
+			sel.esperar(1000);
+			condicoes.clickBtnSeguirButton();
+		}
 	}
 
 	private void preencherPendencias(WebDriver navegador) {
@@ -309,14 +307,17 @@ public class ScriptCadastro {
 		sel.esperar(1500);
 		pendecias.setComprovantes(gestorDeContas);
 		pendecias.clickSeguirButton();
-
 	}
 
 	private void confirmarCadastro(WebDriver navegador) {
-
 		ConfirmacaoDeCadastro confirmar = new ConfirmacaoDeCadastro();
 		PageFactory.initElements(navegador, confirmar);
-
+		
+		if (sel.navegador.getCurrentUrl().contains("plataforma.lerosa.com.br")) {
+			confirmar.selecionarRadio();
+			sel.esperar(500);
+			                          
+		}
 		confirmar.enviarToken();
 
 		String token = sel.buscarTokenNoProtonMail(navegador, sel.pegarDataHora());
@@ -326,6 +327,34 @@ public class ScriptCadastro {
 
 		sel.esperar(1500);
 		confirmar.clickSeguirButton();
+	}
+
+	public void run() {
+		try {
+			preencherPrimeiraPagina(sel.navegador);
+			// ESTUDAR - sel.lerLog(sel.navegador);
+			selecionaPlano(sel.navegador);
+
+			informacoesPessoais(sel.navegador);
+
+			preencherTipoDeDocumento(sel.navegador);
+			preencherEndereco(sel.navegador);
+			preencherInformacoesProfissionais(sel.navegador);
+			preencherInformacoesFinanceiras(sel.navegador);
+			preencherInformacoesBancarias(sel.navegador);
+			preencherPerfilInvestidor(sel.navegador);
+			confirmarPerfilInvestidor(sel.navegador);
+			preencherDeclaracoes(sel.navegador);
+			preencherDeclaracaoProposito(sel.navegador);
+			informarProcuradores(sel.navegador);
+			enderecoCorrespondencia(sel.navegador);
+			preencherCondicoesGerais(sel.navegador);
+			preencherPendencias(sel.navegador);
+			confirmarCadastro(sel.navegador);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

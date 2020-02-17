@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
@@ -32,7 +33,16 @@ public class EnderecoCorrespondecia13 {
 
     @FindBy(id = "buttonPrevious")
     @CacheLookup
-    private WebElement voltar;
+    private WebElement voltar;    
+    
+    @FindBy(id = "termsAcception")
+    @CacheLookup
+    private WebElement aceitarTermos;
+    
+    @FindBy(id = "term-modal")
+    @CacheLookup
+    private WebElement seguirModal;
+
 
     public EnderecoCorrespondecia13() {
     }
@@ -61,6 +71,12 @@ public class EnderecoCorrespondecia13 {
         seguir.click();
         return this;
     }
+    
+    public EnderecoCorrespondecia13 clickSeguirModalButton() {
+        seguirModal.findElement(By.tagName("button")).click();
+        return this;
+    }
+
 
     /**
      * Click on Standart Button.
@@ -112,6 +128,11 @@ public class EnderecoCorrespondecia13 {
      *
      * @return the EnderecoCorrespondecia class instance.
      */
+    public EnderecoCorrespondecia13 aceitarTermos() {
+            aceitarTermos.click();
+			return this;
+    }
+
     public EnderecoCorrespondecia13 unsetNoDesejoReceberCorrespondnciasCheckboxField() {
         if (noDesejoReceberCorrespondncias.isSelected()) {
             noDesejoReceberCorrespondncias.click();

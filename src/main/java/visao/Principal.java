@@ -44,13 +44,13 @@ public class Principal {
 			System.exit(0);
 			break;
 		}
-		
+
 		System.out.println("\nCenários Automatizados:\n \n 1 - MENOR DE IDADE EMANIPADO\n 2 - "
 				+ "MENOR DE IDADE NÃO EMANCIPADO\n 3 - ESTRANGEIRO COM RNE\n 4 - MAIOR DE IDADE COM CNH	\n 5 - MAIOR DE IDADE COM RG \n 6 - CADASTRO COM GESTOR");
 
 		System.out.println("\nInforme abaixo o número do cenário que deseja reproduzir e pressione enter: \n");
 		int cenario = sc.nextInt();
-		
+
 		sc.close();
 
 		switch (cenario) {
@@ -82,8 +82,23 @@ public class Principal {
 			break;
 		}
 
+		// JADMJR
+		/*
+		 * MENOR_DE_IDADE = false; EMANCIPADO = false; ESTRANGEIRO = false; GESTOR =
+		 * false; TIPO_DOCUMENTO = 1; ambiente =
+		 * "https://plataforma.lerosa.com.br/cadastro/"; ambiente =
+		 * "https://uat.rbinvestimentos.com/cadastro/";
+		 */
+		// JADMJR
 		ScriptCadastro script = new ScriptCadastro();
+		ambiente ="https://uat.rbinvestimentos.com/cadastro/";
 		script.executar(MENOR_DE_IDADE, EMANCIPADO, ESTRANGEIRO, GESTOR, TIPO_DOCUMENTO, ambiente);
+		script.run();
+		
+		ScriptCadastro script1 = new ScriptCadastro();
+		ambiente = "https://plataforma.lerosa.com.br/cadastro/";
+		script1.executar(MENOR_DE_IDADE, EMANCIPADO, ESTRANGEIRO, GESTOR, TIPO_DOCUMENTO, ambiente);
+		script1.run();
 
 	}
 

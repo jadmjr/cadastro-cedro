@@ -56,14 +56,14 @@ public class Selenium {
 		// SEM UI
 		//options.addArguments("--headless");
 		// options.addArguments("test-type");
-		options.addArguments("enable-extensions");
+		//options.addArguments("enable-extensions");
 		// options.addArguments("disable-infobars");
-		options.addArguments("enable-plugins");
+		//options.addArguments("enable-plugins");
 		// options.addArguments("no-sandbox");
 		options.addArguments("start-maximized");
 		// options.addArguments("test-type");
 		// options.addArguments("test-type=browser");
-		options.addArguments("auto-open-devtools-for-tabs");
+		//options.addArguments("auto-open-devtools-for-tabs");
 		// options.addArguments("disable-default-apps");
 		// options.addArguments("--disable-popup-blocking");
 		// options.addArguments("enable-precise-memory-info");

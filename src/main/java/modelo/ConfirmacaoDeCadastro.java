@@ -31,6 +31,12 @@ public class ConfirmacaoDeCadastro {
 	@FindBy(id = "previous")
 	@CacheLookup
 	private WebElement voltar;
+	
+	
+	@FindBy(xpath = "//*[@id=\"1\"]")
+	@CacheLookup
+	private WebElement radio;
+
 
 	public ConfirmacaoDeCadastro() {
 	}
@@ -59,6 +65,12 @@ public class ConfirmacaoDeCadastro {
 		enviarToken.click();
 		return this;
 	}
+	
+	public ConfirmacaoDeCadastro selecionarRadio() {
+		radio.click();
+		return this;
+	}
+
 
 	/**
 	 * Click on Seguir Button.

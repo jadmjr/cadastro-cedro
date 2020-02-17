@@ -55,12 +55,14 @@ public class Pendencias extends Selenium {
 	public Pendencias setComprovantes(Boolean gestorDeContas) {
 		comprovantes.get(0).sendKeys(carregarArquivo("images.png"));
 		esperar(1000);
-		comprovantes.get(1).sendKeys(carregarArquivo("cnh1.jpg"));
-		esperar(1000);
-		if (gestorDeContas) {
-			comprovantes.get(2).sendKeys(carregarArquivo("normas.jpeg"));
+		if (comprovantes.size() > 1) {
+			comprovantes.get(1).sendKeys(carregarArquivo("cnh1.jpg"));
 			esperar(1000);
-			comprovantes.get(3).sendKeys(carregarArquivo("gestor.png"));
+			if (gestorDeContas) {
+				comprovantes.get(2).sendKeys(carregarArquivo("normas.jpeg"));
+				esperar(1000);
+				comprovantes.get(3).sendKeys(carregarArquivo("gestor.png"));
+			}
 		}
 		return this;
 	}

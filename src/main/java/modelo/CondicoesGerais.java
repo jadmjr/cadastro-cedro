@@ -22,6 +22,10 @@ public class CondicoesGerais extends Selenium {
 	@FindBy(id = "next")
 	@CacheLookup
 	private WebElement seguir;
+	
+	@FindBy(id = "buttonNext")
+	@CacheLookup
+	private WebElement BotaoSeguir;
 
 	@FindBy(id = "previous")
 	@CacheLookup
@@ -62,6 +66,12 @@ public class CondicoesGerais extends Selenium {
 		seguir.click();
 		return this;
 	}
+	
+	public CondicoesGerais clickBtnSeguirButton() {
+		BotaoSeguir.click();
+		return this;
+	}
+
 
 	/**
 	 * Click on Voltar Button.
