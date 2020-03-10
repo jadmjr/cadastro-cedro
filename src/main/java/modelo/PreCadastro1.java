@@ -1,11 +1,13 @@
 package modelo;
 
+import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.Select;
@@ -13,7 +15,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import controle.Selenium;
 
-public class PreCadastro1 extends Selenium{
+public class PreCadastro1 extends Selenium {
 	private Map<String, String> data;
 	private WebDriver driver;
 	private int timeout = 15;
@@ -74,6 +76,10 @@ public class PreCadastro1 extends Selenium{
 	@CacheLookup
 	private WebElement todosOsTiposDeInvestimento;
 
+	@FindAll({ @FindBy(className = "select-error-msg") })
+	@CacheLookup
+	private List<WebElement> msgsErro;
+
 	public PreCadastro1() {
 
 	}
@@ -103,6 +109,13 @@ public class PreCadastro1 extends Selenium{
 		return this;
 	}
 
+	public WebElement getBtnSeguir() {
+		return seguir;
+	}
+	public List<WebElement> getMsgsErros() {
+		return msgsErro;
+	}
+
 	/**
 	 * Click on Seguir Button.
 	 *
@@ -119,7 +132,7 @@ public class PreCadastro1 extends Selenium{
 	}
 
 	public PreCadastro1 clickToggle() {
-		JavascriptExecutor JSexecutor = (JavascriptExecutor)driver;
+		JavascriptExecutor JSexecutor = (JavascriptExecutor) driver;
 		JSexecutor.executeScript("arguments[0].click();", toggle);
 		return this;
 	}
@@ -187,6 +200,7 @@ public class PreCadastro1 extends Selenium{
 	 * @return the Primeira class instance.
 	 */
 	public PreCadastro1 setCelularTextField(String celularValue) {
+		celular.clear();
 		celular.sendKeys(celularValue);
 		return this;
 	}
@@ -206,6 +220,7 @@ public class PreCadastro1 extends Selenium{
 	 * @return the Primeira class instance.
 	 */
 	public PreCadastro1 setCpfTextField(String cpfValue) {
+		cpf.clear();
 		cpf.sendKeys(cpfValue);
 		return this;
 	}
@@ -229,6 +244,7 @@ public class PreCadastro1 extends Selenium{
 	 * @return the Primeira class instance.
 	 */
 	public PreCadastro1 setEmailTextField(String emailValue) {
+		email.clear();
 		email.sendKeys(emailValue);
 		return this;
 	}
@@ -248,6 +264,7 @@ public class PreCadastro1 extends Selenium{
 	 * @return the Primeira class instance.
 	 */
 	public PreCadastro1 setNomeCompletoTextField(String nomeCompletoValue) {
+		nomeCompleto.clear();
 		nomeCompleto.sendKeys(nomeCompletoValue);
 		return this;
 	}

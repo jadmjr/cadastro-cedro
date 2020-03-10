@@ -1,16 +1,8 @@
 package controle;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.ExtentTest;
-import com.aventstack.extentreports.Status;
-import com.aventstack.extentreports.reporter.ExtentHtmlReporter;
 
 import modelo.CondicoesGerais;
 import modelo.ConfirmaPerfilInvestidor10;
@@ -31,63 +23,62 @@ import modelo.PreCadastro1;
 import modelo.SelecaoDePlanos2;
 import modelo.TerceirosProcuradores12;
 
-public class ScriptCadastro {
+public class EmbarkAutomato implements Runnable {
 
 	public boolean menorDeIdade, emancipado, gestorDeContas, estrangeiro;
+	String ambiente;
 	public int tipoDocumento;
 	public Selenium sel;
-	// REPORT
-	public ExtentReports extent;
-	public ExtentTest logger;
 
-	public void executar(boolean menorDeIdade, boolean emancipado, boolean estrangeiro, boolean gestorDeContas,
-			int tipoDocumento, String ambiente) {
+	public boolean isMenorDeIdade() {
+		return menorDeIdade;
+	}
 
+	public void setMenorDeIdade(boolean menorDeIdade) {
 		this.menorDeIdade = menorDeIdade;
+	}
+
+	public boolean isEmancipado() {
+		return emancipado;
+	}
+
+	public void setEmancipado(boolean emancipado) {
 		this.emancipado = emancipado;
-		this.estrangeiro = estrangeiro;
+	}
+
+	public boolean isGestorDeContas() {
+		return gestorDeContas;
+	}
+
+	public void setGestorDeContas(boolean gestorDeContas) {
 		this.gestorDeContas = gestorDeContas;
+	}
+
+	public boolean isEstrangeiro() {
+		return estrangeiro;
+	}
+
+	public void setEstrangeiro(boolean estrangeiro) {
+		this.estrangeiro = estrangeiro;
+	}
+
+	public String getAmbiente() {
+		return ambiente;
+	}
+
+	public void setAmbiente(String ambiente) {
+		this.ambiente = ambiente;
+	}
+
+	public int getTipoDocumento() {
+		return tipoDocumento;
+	}
+
+	public void setTipoDocumento(int tipoDocumento) {
 		this.tipoDocumento = tipoDocumento;
-
-		sel = new Selenium();
-		sel.inicializar();
-
-		sel.abrirURL(ambiente);
-		String nomeRelatorio = ambiente.substring(7, ambiente.indexOf(".com"));
-		inicializaReport(nomeRelatorio);
-
-		try {
-			preencherPrimeiraPagina(sel.navegador);
-			// ESTUDAR - sel.lerLog(sel.navegador);
-			selecionaPlano(sel.navegador);
-
-			informacoesPessoais(sel.navegador);
-
-			preencherTipoDeDocumento(sel.navegador);
-			preencherEndereco(sel.navegador);
-			preencherInformacoesProfissionais(sel.navegador);
-			preencherInformacoesFinanceiras(sel.navegador);
-			preencherInformacoesBancarias(sel.navegador);
-			preencherPerfilInvestidor(sel.navegador);
-			confirmarPerfilInvestidor(sel.navegador);
-			preencherDeclaracoes(sel.navegador);
-			preencherDeclaracaoProposito(sel.navegador);
-			informarProcuradores(sel.navegador);
-			enderecoCorrespondencia(sel.navegador);
-			preencherCondicoesGerais(sel.navegador);
-			preencherPendencias(sel.navegador);
-			confirmarCadastro(sel.navegador);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			finalizaTestes();
-		}
-
 	}
 
 	public void preencherPrimeiraPagina(WebDriver navegador) {
-
-		preCadTest(navegador);
 
 		PreCadastro1 preCadastro = new PreCadastro1(navegador);
 		PageFactory.initElements(navegador, preCadastro);
@@ -111,87 +102,6 @@ public class ScriptCadastro {
 		preCadastro.clickSeguirButton();
 	}
 
-	private void preCadTest(WebDriver navegador) {
-
-		PreCadastro1 preCadastro = new PreCadastro1(navegador);
-		PageFactory.initElements(navegador, preCadastro);
-
-		try {
-			logger = extent.createTest("Validar campos de preenchimento obrigatorio");
-			preCadastro.setNomeCompletoTextField("" + Keys.TAB);
-			preCadastro.setCpfTextField("" + Keys.TAB);
-			preCadastro.setEmailTextField("" + Keys.TAB);
-			preCadastro.setCelularTextField("" + Keys.TAB);
-			if (preCadastro.getMsgsErros().size() == 4)
-				logger.log(Status.PASS, "Passou, " + preCadastro.getMsgsErros().size() + " mensagens detectadas.");
-		} catch (Exception e4) {
-			logger.log(Status.FAIL, "Falhou, detectado apenas: " + preCadastro.getMsgsErros().size() + " mensagens.");
-		}
-
-		try {
-			logger = extent.createTest("Validar padrao de nome invalido. (X3 ZEZINHO)");
-			PageFactory.initElements(navegador, preCadastro);
-			preCadastro.setNomeCompletoTextField("X3 ZEZINHO");
-			sel.esperar(500);
-			if (preCadastro.getMsgsErros().get(0).getText().contains("Nome inválido."))
-				logger.log(Status.PASS, "Validacao ocorreu corretamente no campo nome.");
-		} catch (Exception e3) {
-			logger.log(Status.FAIL, "Validacao nao ocorreu no campo nome.");
-		}
-
-		try {
-			logger = extent.createTest("Validar padrao CPF invalido. (106.530.636-92)");
-			PageFactory.initElements(navegador, preCadastro);
-			preCadastro.setCpfTextField("106.530.636-92");
-			sel.esperar(500);
-			if (preCadastro.getMsgsErros().get(1).getText().contains("CPF inválido."))
-				logger.log(Status.PASS, "Validacao ocorreu corretamente no campo CPF.");
-		} catch (Exception e2) {
-			logger.log(Status.FAIL, "Validacao nao ocorreu no campo CPF.");
-		}
-
-		try {
-			logger = extent.createTest("Validar padrao E-MAIL invalido. (aaaaa@.com)");
-			PageFactory.initElements(navegador, preCadastro);
-			preCadastro.setEmailTextField("aaaaa@.com");
-			sel.esperar(500);
-			if (preCadastro.getMsgsErros().get(2).getText().contains("E-mail inválido."))
-				logger.log(Status.PASS, "Validacao ocorreu corretamente no campo E-MAIL.");
-		} catch (Exception e1) {
-			logger.log(Status.FAIL, "Validacao nao ocorreu no campo E-MAIL.");
-		}
-		try {
-			logger = extent.createTest("Validar padrao CELULAR  invalido. ((34) 3217-7247)");
-			PageFactory.initElements(navegador, preCadastro);
-			preCadastro.setCelularTextField("(34) 3217-7247");
-			sel.esperar(500);
-			if (preCadastro.getMsgsErros().get(3).getText().contains("Informe um telefone válido."))
-				logger.log(Status.PASS, "Validacao ocorreu corretamente no campo CELULAR.");
-
-		} catch (Exception e) {
-			logger.log(Status.FAIL, "Validacao nao ocorreu no campo CELULAR.");
-		}
-
-		sel.navegador.navigate().refresh();
-
-		try {
-			logger = extent.createTest("Validar botao seguir desabilitado");
-			PageFactory.initElements(navegador, preCadastro);
-
-			WebElement btnSeguir = preCadastro.getBtnSeguir();
-			if (btnSeguir.isEnabled())
-				logger.log(Status.FAIL, "Botao habilitado sem preecnher os campos.");
-			else
-				logger.log(Status.PASS, "Botao desabilitado sem preecnher os campos.");
-
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-
-		// finalizaTestes();
-
-	}
-
 	private void selecionaPlano(WebDriver navegador) {
 
 		if (!navegador.getCurrentUrl().contains("rbinvestimentos")) {
@@ -213,9 +123,6 @@ public class ScriptCadastro {
 	}
 
 	private void informacoesPessoais(WebDriver navegador) {
-
-		informaPessoalTest(navegador);
-
 		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3(sel.navegador);
 		PageFactory.initElements(navegador, informacoesPessoais);
 
@@ -273,16 +180,6 @@ public class ScriptCadastro {
 			informacoesPessoais.setNomeCompletoDaMeTextField("MAE " + sel.gerarNomeAleatorio());
 
 		informacoesPessoais.clickSeguirButton();
-	}
-
-	private void informaPessoalTest(WebDriver navegador) {
-		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3(navegador);
-		PageFactory.initElements(navegador, informacoesPessoais);
-		informacoesPessoais.setDataDeNascimentoTextField("" + Keys.TAB);
-		informacoesPessoais.setEstadoDeNascimentoSearchField("" + Keys.TAB);
-		informacoesPessoais.setNomeCompletoDaMeTextField(""+Keys.TAB);
-		informacoesPessoais.setNomeCompletoDoPaiTextField(""+Keys.TAB);
-		informacoesPessoais.setEstadoCivilDropDownListField(""+Keys.TAB);
 	}
 
 	private void preencherTipoDeDocumento(WebDriver navegador) {
@@ -446,11 +343,11 @@ public class ScriptCadastro {
 	private void confirmarCadastro(WebDriver navegador) {
 		ConfirmacaoDeCadastro confirmar = new ConfirmacaoDeCadastro();
 		PageFactory.initElements(navegador, confirmar);
-
+		
 		if (sel.navegador.getCurrentUrl().contains("plataforma.lerosa.com.br")) {
 			confirmar.selecionarRadio();
 			sel.esperar(500);
-
+			                          
 		}
 		confirmar.enviarToken();
 
@@ -463,20 +360,41 @@ public class ScriptCadastro {
 		confirmar.clickSeguirButton();
 	}
 
-	// TEST - INICIALIZA REPORT
-	public void inicializaReport(String nome) {
-		ExtentHtmlReporter reporter = new ExtentHtmlReporter("./report/" + nome + ".html");
-		extent = new ExtentReports();
-		extent.attachReporter(reporter);
+	public void run() {
+
+		
+		sel = new Selenium();
+		sel.inicializar();
+
+		sel.abrirURL(this.ambiente);
+		
+		try {
+			preencherPrimeiraPagina(sel.navegador);
+			// ESTUDAR - sel.lerLog(sel.navegador);
+			selecionaPlano(sel.navegador);
+
+			informacoesPessoais(sel.navegador);
+
+			preencherTipoDeDocumento(sel.navegador);
+			preencherEndereco(sel.navegador);
+			preencherInformacoesProfissionais(sel.navegador);
+			preencherInformacoesFinanceiras(sel.navegador);
+			preencherInformacoesBancarias(sel.navegador);
+			preencherPerfilInvestidor(sel.navegador);
+			confirmarPerfilInvestidor(sel.navegador);
+			preencherDeclaracoes(sel.navegador);
+			preencherDeclaracaoProposito(sel.navegador);
+			informarProcuradores(sel.navegador);
+			enderecoCorrespondencia(sel.navegador);
+			preencherCondicoesGerais(sel.navegador);
+			preencherPendencias(sel.navegador);
+			confirmarCadastro(sel.navegador);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
-	public void finalizaTestes() {
-		try {
-			sel.navegador.close();
-			extent.flush();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-	}
 
 }

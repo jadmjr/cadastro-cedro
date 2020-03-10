@@ -267,6 +267,7 @@ public class InformacoesPessoais3 extends Selenium {
 	 * @return the Temp class instance.
 	 */
 	public InformacoesPessoais3 setDataDeNascimentoTextField(String dataDeNascimentoValue) {
+		dataDeNascimento.clear();
 		dataDeNascimento.sendKeys(dataDeNascimentoValue);
 		return this;
 	}
