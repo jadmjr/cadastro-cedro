@@ -1,16 +1,15 @@
 package modelo;
 
-import java.util.List;
 import java.util.Map;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
-public class CockpitLogin {
+public class Login {
     private Map<String, String> data;
     private WebDriver driver;
     private int timeout = 15;
@@ -31,20 +30,20 @@ public class CockpitLogin {
     @CacheLookup
     private WebElement usurio;
 
-    public CockpitLogin() {
+    public Login() {
     }
 
-    public CockpitLogin(WebDriver driver) {
+    public Login(WebDriver driver) {
         this();
         this.driver = driver;
     }
 
-    public CockpitLogin(WebDriver driver, Map<String, String> data) {
+    public Login(WebDriver driver, Map<String, String> data) {
         this(driver);
         this.data = data;
     }
 
-    public CockpitLogin(WebDriver driver, Map<String, String> data, int timeout) {
+    public Login(WebDriver driver, Map<String, String> data, int timeout) {
         this(driver, data);
         this.timeout = timeout;
     }
@@ -54,7 +53,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin clickEntrarButton() {
+    public Login clickEntrarButton() {
         entrar.click();
         return this;
     }
@@ -64,7 +63,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin fill() {
+    public Login fill() {
         setUsurioTextField();
         setSenhaPasswordField();
         return this;
@@ -75,7 +74,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin fillAndSubmit() {
+    public Login fillAndSubmit() {
         fill();
         return submit();
     }
@@ -85,7 +84,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin setSenhaPasswordField() {
+    public Login setSenhaPasswordField() {
         return setSenhaPasswordField(data.get("SENHA"));
     }
 
@@ -94,7 +93,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin setSenhaPasswordField(String senhaValue) {
+    public Login setSenhaPasswordField(String senhaValue) {
         senha.sendKeys(senhaValue);
         return this;
     }
@@ -104,7 +103,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin setUsurioTextField() {
+    public Login setUsurioTextField() {
         return setUsurioTextField(data.get("USURIO"));
     }
 
@@ -113,7 +112,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin setUsurioTextField(String usurioValue) {
+    public Login setUsurioTextField(String usurioValue) {
         usurio.sendKeys(usurioValue);
         return this;
     }
@@ -123,7 +122,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin submit() {
+    public Login submit() {
         clickEntrarButton();
         return this;
     }
@@ -133,7 +132,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin verifyPageLoaded() {
+    public Login verifyPageLoaded() {
         (new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 return d.getPageSource().contains(pageLoadedText);
@@ -147,7 +146,7 @@ public class CockpitLogin {
      *
      * @return the CockpitLogin class instance.
      */
-    public CockpitLogin verifyPageUrl() {
+    public Login verifyPageUrl() {
         (new WebDriverWait(driver, timeout)).until(new ExpectedCondition<Boolean>() {
             public Boolean apply(WebDriver d) {
                 return d.getCurrentUrl().contains(pageUrl);

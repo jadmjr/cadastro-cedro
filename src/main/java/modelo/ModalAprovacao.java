@@ -1,18 +1,11 @@
 package modelo;
 
-import java.util.List;
 import java.util.Map;
-import org.openqa.selenium.support.CacheLookup;
-import org.openqa.selenium.support.FindAll;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.Select;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.CacheLookup;
+import org.openqa.selenium.support.FindBy;
 
 public class ModalAprovacao {
 	private Map<String, String> data;
@@ -23,7 +16,7 @@ public class ModalAprovacao {
 	@CacheLookup
 	private WebElement observacao;
 
-	@FindBy(name = "accept")
+	@FindBy(id = "accept")
 	@CacheLookup
 	private WebElement botaoAprovar;
 	
@@ -57,7 +50,7 @@ public class ModalAprovacao {
 	 * @return the CockpitLogin class instance.
 	 */
 	public ModalAprovacao preencherObservacao() {
-		observacao.sendKeys("teste");
+		observacao.sendKeys("Aprovado");
 		return this;
 	}
 
