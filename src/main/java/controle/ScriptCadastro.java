@@ -86,8 +86,9 @@ public class ScriptCadastro {
 	}
 
 	public void preencherPrimeiraPagina(WebDriver navegador) {
-
-		preCadTest(navegador);
+		
+		//VALIDATION - JADMJR
+		//preCadTest(navegador);
 
 		PreCadastro1 preCadastro = new PreCadastro1(navegador);
 		PageFactory.initElements(navegador, preCadastro);
@@ -111,6 +112,7 @@ public class ScriptCadastro {
 		preCadastro.clickSeguirButton();
 	}
 
+	//VALIDATION - JADMJR
 	private void preCadTest(WebDriver navegador) {
 
 		PreCadastro1 preCadastro = new PreCadastro1(navegador);
@@ -213,8 +215,8 @@ public class ScriptCadastro {
 	}
 
 	private void informacoesPessoais(WebDriver navegador) {
-
-		informaPessoalTest(navegador);
+		//CHAMANDO CLASSE DE TESTE
+		//informaPessoalTest(navegador);
 
 		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3(sel.navegador);
 		PageFactory.initElements(navegador, informacoesPessoais);
@@ -278,7 +280,7 @@ public class ScriptCadastro {
 	private void informaPessoalTest(WebDriver navegador) {
 		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3(navegador);
 		PageFactory.initElements(navegador, informacoesPessoais);
-		informacoesPessoais.setDataDeNascimentoTextField("" + Keys.TAB);
+		informacoesPessoais.setDataDeNascimentoTextField("12/06/20" + Keys.TAB);
 		informacoesPessoais.setEstadoDeNascimentoSearchField("" + Keys.TAB);
 		informacoesPessoais.setNomeCompletoDaMeTextField(""+Keys.TAB);
 		informacoesPessoais.setNomeCompletoDoPaiTextField(""+Keys.TAB);
@@ -329,6 +331,7 @@ public class ScriptCadastro {
 		sel.esperar(500);
 		endereco.setNumero("768");
 		endereco.setComplemento("CASA");
+		endereco.cliqueDeclaracao();
 		endereco.clickSeguirButton();
 	}
 

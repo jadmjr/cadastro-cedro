@@ -11,7 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import controle.Selenium;
 
-public class Endereco5 extends Selenium{
+public class Endereco5 extends Selenium {
 	private Map<String, String> data;
 	private WebDriver driver;
 	private int timeout = 15;
@@ -48,6 +48,10 @@ public class Endereco5 extends Selenium{
 	@CacheLookup
 	private WebElement complemento;
 
+	@FindBy(id = "mat-checkbox-2")
+	@CacheLookup
+	private WebElement declaracaoEndereco;
+
 	public Endereco5() {
 	}
 
@@ -75,6 +79,12 @@ public class Endereco5 extends Selenium{
 		noSeiMeuCep.click();
 		return this;
 	}
+	
+	public Endereco5 cliqueDeclaracao() {
+		declaracaoEndereco.click();
+		return this;
+	}
+
 
 	/**
 	 * Click on Seguir Button.
@@ -140,7 +150,7 @@ public class Endereco5 extends Selenium{
 		numero.sendKeys(textoNumero);
 		return this;
 	}
-	
+
 	public Endereco5 setComplemento(String textoComplemento) {
 		complemento.sendKeys(textoComplemento);
 		return this;
