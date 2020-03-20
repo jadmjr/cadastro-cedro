@@ -14,7 +14,7 @@ public class Login {
     private WebDriver driver;
     private int timeout = 15;
 
-    @FindBy(css = "button.btn-primary.btn-md.mat-flat-button.ng-star-inserted")
+    @FindBy(xpath = "/html/body/app-root/app-authentication-component/div/div/div[2]/div/div[4]/button")
     @CacheLookup
     private WebElement entrar;
 
@@ -22,7 +22,7 @@ public class Login {
 
     private final String pageUrl = "/cockpit/login";
 
-    @FindBy(id = "mat-input-1")
+    @FindBy(id = "password")
     @CacheLookup
     private WebElement senha;
 

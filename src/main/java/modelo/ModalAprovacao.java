@@ -10,7 +10,7 @@ import org.openqa.selenium.support.FindBy;
 public class ModalAprovacao {
 	private Map<String, String> data;
 	private WebDriver driver;
-	private int timeout = 15;
+	private int timeout = 2;
 
 	@FindBy( tagName = "textarea")
 	@CacheLookup
@@ -23,6 +23,11 @@ public class ModalAprovacao {
 	@FindBy(className = "modal-class")
 	@CacheLookup
 	private WebElement modal;
+	
+	@FindBy(className = "icon-close-modal")
+	@CacheLookup
+	private WebElement btnFechar;
+	
 	
 	
 
@@ -50,12 +55,21 @@ public class ModalAprovacao {
 	 * @return the CockpitLogin class instance.
 	 */
 	public ModalAprovacao preencherObservacao() {
-		observacao.sendKeys("Aprovado");
+		observacao.sendKeys("Tá okay");
 		return this;
+	}
+	
+	public WebElement getCampoObservacao() {
+		return observacao;
 	}
 
 	public ModalAprovacao clicarEmAprovar() {
-		botaoAprovar.click();
+		botaoAprovar.click();		
+		return this;
+	}
+	
+	public ModalAprovacao fechaModal() {
+		btnFechar.click();		
 		return this;
 	}
 

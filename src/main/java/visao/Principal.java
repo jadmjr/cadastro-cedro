@@ -60,11 +60,11 @@ public class Principal {
 		ESTRANGEIRO = false;
 		GESTOR = false;
 		TIPO_DOCUMENTO = 1;
-		ambiente = "https://plataforma.lerosa.com.br/cadastro/";
+		// ambiente = "https://plataforma.lerosa.com.br/cadastro/";
 
 		// JADMJR
 		ScriptCadastro script = new ScriptCadastro();
-		// ambiente ="https://uat.rbinvestimentos.com/cadastro/";
+		ambiente = "https://uat.rbinvestimentos.com/cadastro/";
 		script.executar(MENOR_DE_IDADE, EMANCIPADO, ESTRANGEIRO, GESTOR, TIPO_DOCUMENTO, ambiente);
 
 	}

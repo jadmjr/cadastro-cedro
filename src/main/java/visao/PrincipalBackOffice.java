@@ -6,13 +6,15 @@ public class PrincipalBackOffice {
 
 	public static void main(String[] args) {
 		
+		String ambiente  = "https://uat.rbinvestimentos.com";
+		
 		BackOffice bc = new BackOffice();
-		bc.acessarAmbiente("https://qa.cedrotech.com/cockpit/login");
-		bc.login("usr_dev_accounts", "Toor@2017");
+		bc.acessarAmbiente(ambiente);
+		bc.login("usr_cedro_accounts", "Toor@2017");
 		
-		bc.acessarDashBoard();
+		//bc.acessarDashBoard();
 		
-		bc.acessarEsteiraPendetesDeAprovacao();
+		bc.acessarEsteiraPendetesDeAprovacao(ambiente);
 		bc.aprovarPendencias();
 		
 		//bc.fecharNavegador();

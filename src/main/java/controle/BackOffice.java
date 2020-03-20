@@ -23,7 +23,7 @@ public class BackOffice extends Selenium {
 	public void acessarAmbiente(String url) {
 
 		inicializar();
-		abrirURL(url);
+		abrirURL(url+"/cockpit/login");
 
 	}
 
@@ -38,11 +38,15 @@ public class BackOffice extends Selenium {
 
 	}
 
-	public void acessarEsteiraPendetesDeAprovacao() {
+	public void acessarEsteiraPendetesDeAprovacao(String ambiente) {
 
-		DashBoardEsteiras esteiras = new DashBoardEsteiras(navegador);
-		PageFactory.initElements(navegador, esteiras);
-		esteiras.acessarEsteiraPendentesAprovacao();
+		/*
+		 * DashBoardEsteiras esteiras = new DashBoardEsteiras(navegador);
+		 * PageFactory.initElements(navegador, esteiras);
+		 * esteiras.acessarEsteiraPendentesAprovacao();
+		 */
+		esperar(1500);
+		navegador.get(ambiente+"/backoffice/panel/dashboard/pending-aproved/1");
 
 	}
 

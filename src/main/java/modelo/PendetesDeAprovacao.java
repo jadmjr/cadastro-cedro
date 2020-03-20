@@ -11,6 +11,9 @@ import org.openqa.selenium.support.CacheLookup;
 import org.openqa.selenium.support.FindAll;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import controle.Selenium;
 
@@ -23,72 +26,31 @@ public class PendetesDeAprovacao extends Selenium {
 	@CacheLookup
 	private WebElement campoPesquisa;
 
-	@FindBy(className = "datatable-body")
+	@FindAll({ @FindBy(className = "red-block"), @FindBy(className = "yellow-block") })
 	@CacheLookup
-	private WebElement ficha;
-
-	private List<WebElement> botoesStatus;
+	private List<WebElement> pendetesDeAprovacao;
 
 	public PendetesDeAprovacao() {
 	}
 
 	public void aprovarPendencias() {
-
-		List<WebElement> paineisClientes = ficha.findElements(By.tagName("datatable-body-row"));
-
-		for (WebElement painel : paineisClientes) {
-
-			botoesStatus = painel.findElements(By.className("block-type-ap"));
-
-			for (WebElement botao : botoesStatus) {
-
-				if (botao.getAttribute("class").contains("red")) {
-
-					botao.click();
-
-					esperar(200);
-					ModalAprovacao modal = new ModalAprovacao();
-					PageFactory.initElements(this.driver, modal);
-
-					modal.preencherObservacao();
-					modal.clicarEmAprovar();
-
-				}
-
-				if (botao.getAttribute("class").contains("yellow")) {
-
-					botao.click();
-
-					esperar(200);
-					ModalAprovacao modal = new ModalAprovacao();
-					PageFactory.initElements(this.driver, modal);
-
-					modal.preencherObservacao();
-					modal.clicarEmAprovar();
-
-				}
-
-				esperar(250);
-
+		
+		WebDriverWait wait = new WebDriverWait(this.driver, 2);
+		
+		for (WebElement pendente : pendetesDeAprovacao) {
+			ModalAprovacao modal = new ModalAprovacao();
+			PageFactory.initElements(this.driver, modal);
+			try {
+				pendente.click();	
+				wait.until(ExpectedConditions.visibilityOf(modal.getCampoObservacao()));
+				modal.preencherObservacao();
+				modal.clicarEmAprovar();
+				esperar(200);
+			} catch (Exception e) {
+				modal.fechaModal();
 			}
-
-			WebElement btnAprovar = painel.findElement(By.className("d-flex")).findElements(By.tagName("div")).get(5);
-
-			if (!btnAprovar.getAttribute("class").contains("bt-opacity")) {
-
-				btnAprovar.click();
-
-				ModalAprovarConta modalAprovaConta = new ModalAprovarConta();
-				PageFactory.initElements(this.driver, modalAprovaConta);
-
-				modalAprovaConta.aprovarConta();
-
-			}
-
-			esperar(250);
 
 		}
-
 	}
 
 	public PendetesDeAprovacao(WebDriver driver) {

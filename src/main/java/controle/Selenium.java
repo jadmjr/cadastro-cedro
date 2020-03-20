@@ -90,7 +90,7 @@ public class Selenium {
 		JSexecutor = (JavascriptExecutor) navegador;
 		randon = new Random();
 		geraCpf = new GerarCpfCnpj();
-		navegador.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		navegador.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
 		js = (JavascriptExecutor) navegador;
 
