@@ -39,6 +39,8 @@ public class ScriptCadastro {
 	// REPORT
 	public ExtentReports extent;
 	public ExtentTest logger;
+	// CONFIG TEST
+	boolean testar = false;
 
 	public void executar(boolean menorDeIdade, boolean emancipado, boolean estrangeiro, boolean gestorDeContas,
 			int tipoDocumento, String ambiente) {
@@ -86,9 +88,11 @@ public class ScriptCadastro {
 	}
 
 	public void preencherPrimeiraPagina(WebDriver navegador) {
-		
-		//VALIDATION - JADMJR
-		//preCadTest(navegador);
+
+		// VALIDATION - JADMJR
+
+		if (testar)
+			preCadTest(navegador);
 
 		PreCadastro1 preCadastro = new PreCadastro1(navegador);
 		PageFactory.initElements(navegador, preCadastro);
@@ -112,7 +116,7 @@ public class ScriptCadastro {
 		preCadastro.clickSeguirButton();
 	}
 
-	//VALIDATION - JADMJR
+	// VALIDATION - JADMJR
 	private void preCadTest(WebDriver navegador) {
 
 		PreCadastro1 preCadastro = new PreCadastro1(navegador);
@@ -215,8 +219,9 @@ public class ScriptCadastro {
 	}
 
 	private void informacoesPessoais(WebDriver navegador) {
-		//CHAMANDO CLASSE DE TESTE
-		//informaPessoalTest(navegador);
+		// CHAMANDO CLASSE DE TESTE
+		if (testar)
+			informaPessoalTest(navegador);
 
 		InformacoesPessoais3 informacoesPessoais = new InformacoesPessoais3(sel.navegador);
 		PageFactory.initElements(navegador, informacoesPessoais);
@@ -282,9 +287,9 @@ public class ScriptCadastro {
 		PageFactory.initElements(navegador, informacoesPessoais);
 		informacoesPessoais.setDataDeNascimentoTextField("12/06/20" + Keys.TAB);
 		informacoesPessoais.setEstadoDeNascimentoSearchField("" + Keys.TAB);
-		informacoesPessoais.setNomeCompletoDaMeTextField(""+Keys.TAB);
-		informacoesPessoais.setNomeCompletoDoPaiTextField(""+Keys.TAB);
-		informacoesPessoais.setEstadoCivilDropDownListField(""+Keys.TAB);
+		informacoesPessoais.setNomeCompletoDaMeTextField("" + Keys.TAB);
+		informacoesPessoais.setNomeCompletoDoPaiTextField("" + Keys.TAB);
+		informacoesPessoais.setEstadoCivilDropDownListField("" + Keys.TAB);
 	}
 
 	private void preencherTipoDeDocumento(WebDriver navegador) {
@@ -305,7 +310,7 @@ public class ScriptCadastro {
 			}
 		} else if (tipoDocumento == 2) {
 			documentacao.clickCnhButton();
-			documentacao.setNumeroDocumentoTextField("16472307");
+			documentacao.setNumeroDocumentoTextField("04515149220");
 			documentacao.setEstadoEmissorSearchField("MINAS GERAIS");
 			sel.esperar(800);
 			documentacao.setRgoEmissorDropDownListField("DEPARTAMENTO ESTADUAL DE TRÂNSITO");
@@ -331,7 +336,7 @@ public class ScriptCadastro {
 		sel.esperar(500);
 		endereco.setNumero("768");
 		endereco.setComplemento("CASA");
-		endereco.cliqueDeclaracao();
+		// endereco.cliqueDeclaracao();
 		endereco.clickSeguirButton();
 	}
 
@@ -457,13 +462,13 @@ public class ScriptCadastro {
 		}
 		confirmar.enviarToken();
 
-		String token = sel.buscarTokenNoProtonMail(navegador, sel.pegarDataHora());
+		// String token = sel.buscarTokenNoProtonMail(navegador, sel.pegarDataHora());
 
-		confirmar.preencherCampoToken(token);
-		confirmar.clickValidarToken();
+		// confirmar.preencherCampoToken(token);
+		// confirmar.clickValidarToken();
 
-		sel.esperar(1500);
-		confirmar.clickSeguirButton();
+		// sel.esperar(1500);
+		// confirmar.clickSeguirButton();
 	}
 
 	// TEST - INICIALIZA REPORT
